@@ -1,2 +1,4 @@
-include ':app'
 rootProject.name = "Recipe Master"
+
+include ':app',
+        ':features:recipes'
