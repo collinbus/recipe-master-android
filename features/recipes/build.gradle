@@ -29,6 +29,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -36,7 +42,16 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.5.0'
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+    implementation 'io.insert-koin:koin-android:3.1.0'
+
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'io.kotest:kotest-runner-junit5:4.6.0'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'com.agoda.kakao:kakao:2.3.4'
+    androidTestImplementation 'io.insert-koin:koin-test:3.1.0'
+    androidTestImplementation 'io.kotest:kotest-runner-junit5:4.6.0'
 }
