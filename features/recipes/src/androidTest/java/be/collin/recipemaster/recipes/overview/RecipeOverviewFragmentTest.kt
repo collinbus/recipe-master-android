@@ -2,7 +2,6 @@ package be.collin.recipemaster.recipes.overview
 
 import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -63,14 +62,17 @@ class RecipeOverviewFragmentTest {
                 childAt<RecipeOverviewScreen.RecipeItem>(0) {
                     title.hasText("First")
                     duration.hasText("15 mins")
+                    image.isDisplayed()
                 }
                 childAt<RecipeOverviewScreen.RecipeItem>(1) {
                     title.hasText("Second")
                     duration.hasText("1 min")
+                    image.isDisplayed()
                 }
                 childAt<RecipeOverviewScreen.RecipeItem>(2) {
                     title.hasText("Third")
                     duration.hasText("50 mins")
+                    image.isDisplayed()
                 }
             }
         }
