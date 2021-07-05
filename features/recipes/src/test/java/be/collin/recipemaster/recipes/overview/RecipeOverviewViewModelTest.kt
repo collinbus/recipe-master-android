@@ -1,6 +1,7 @@
 package be.collin.recipemaster.recipes.overview
 
 import androidx.lifecycle.Observer
+import arrow.core.right
 import be.collin.recipemaster.recipes.RecipeRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.arbitrary.next
@@ -12,7 +13,7 @@ internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
     val secondRecipe = recipeArb.next()
     val thirdRecipe = recipeArb.next()
     val recipeRepositoryMock: RecipeRepository = mockk {
-        coEvery { getRecipes() } returns flow { emit(listOf(firstRecipe,secondRecipe,thirdRecipe)) }
+        coEvery { getRecipes() } returns listOf(firstRecipe,secondRecipe,thirdRecipe).right()
     }
 
     given("a RecipeOverviewViewModel") {

@@ -2,16 +2,15 @@ package be.collin.recipemaster.recipes
 
 import be.collin.recipemaster.recipes.overview.Base64Image
 import be.collin.recipemaster.recipes.overview.Recipe
+import be.collin.recipemaster.shouldBeRightWithValue
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.flow.first
 
 internal class RecipeRepositoryTest : BehaviorSpec({
-    given("a RecipeRepository") {
+    given("a successful RecipeRepository") {
         val recipeName = "a_name"
         val recipeDuration = 15
         val recipeImageData = "imageData"
@@ -34,11 +33,11 @@ internal class RecipeRepositoryTest : BehaviorSpec({
         val repository = RecipeRepository(api)
 
         `when`("getRecipes is called") {
-            val recipes = repository.getRecipes().first()
+            val recipes = repository.getRecipes()
 
             then("it should return the correct list of recipes") {
                 val expectedRecipes = listOf(Recipe(recipeName, recipeDuration, Base64Image(recipeImageData)))
-                recipes shouldBe expectedRecipes
+                recipes shouldBeRightWithValue expectedRecipes
             }
         }
     }

@@ -15,11 +15,15 @@ class RecipeOverviewViewModelImpl(
 ) : RecipeOverviewViewModel() {
 
     override val recipes: LiveData<RecipeUIModels> = liveData {
-        recipeRepository.getRecipes().collect { recipes ->
+        recipeRepository.getRecipes().fold(::handleError, { recipes ->
             val uiModels = recipes.map { recipe ->
                 RecipeUIModel(recipe)
             }
             emit(RecipeUIModels(uiModels))
-        }
+        })
+    }
+
+    fun handleError(throwable: Throwable) {
+
     }
 }
