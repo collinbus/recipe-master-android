@@ -13,7 +13,6 @@ class RecipeOverviewViewModelImpl(
     override val uiState: LiveData<UIState> = liveData {
         emit(UIState.Loading)
         recipeRepository.getRecipes().fold({
-            Log.d("RecipeOverviewViewModel", it.toString())
             emit(UIState.Error)
         }, { recipes ->
             val uiModels = recipes.map { recipe ->

@@ -2,6 +2,7 @@ package be.collin.recipemaster.recipes.overview
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,10 +67,12 @@ class RecipeOverviewFragment : Fragment(R.layout.fragment_recipe_overview) {
             fun bind(recipe: RecipeUIModel) {
                 title.text = recipe.title
                 duration.text = recipe.duration
+
+                val decodedBase64String = Base64.decode(recipe.image.content, Base64.DEFAULT)
                 val bitmap = BitmapFactory.decodeByteArray(
-                    recipe.image.content,
+                    decodedBase64String,
                     0,
-                    recipe.image.length
+                    decodedBase64String.size
                 )
                 image.setImageBitmap(bitmap)
             }
