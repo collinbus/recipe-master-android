@@ -4,9 +4,11 @@ import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import be.collin.recipemaster.recipes.R
 import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModel.UIState.Loading
+import com.agoda.kakao.dialog.KAlertDialog
 import com.agoda.kakao.recycler.KRecyclerItem
 import com.agoda.kakao.recycler.KRecyclerView
 import com.agoda.kakao.screen.Screen
@@ -28,6 +30,7 @@ class RecipeOverviewFragmentTest {
     private class RecipeOverviewScreen : Screen<RecipeOverviewScreen>() {
         val recipes = KRecyclerView({ withId(R.id.recipesList) }, { itemType(::RecipeItem) })
         val swipeRefresh = KSwipeRefreshLayout { withId(R.id.swipeRefreshRecipes) }
+        val errorDialog = KAlertDialog()
 
         class RecipeItem(parent: Matcher<View>) : KRecyclerItem<RecipeItem>(parent) {
             val title = KTextView(parent) { withId(R.id.recipeTitle) }
@@ -86,6 +89,25 @@ class RecipeOverviewFragmentTest {
         onScreen<RecipeOverviewScreen> {
             swipeRefresh {
                 isRefreshing()
+            }
+        }
+    }
+
+    @Test
+    fun shouldShowLErrorWhenLoadingStateIsObserved() {
+        launchRecipeOverviewFragmentInContainerWith(
+            uiStateLiveData = liveData<RecipeOverviewViewModel.UIState> {
+                emit(RecipeOverviewViewModel.UIState.Error)
+            }
+        )
+
+        onScreen<RecipeOverviewScreen> {
+            errorDialog {
+                isDisplayed()
+                title.hasText(R.string.error_title)
+                message.hasText(R.string.generic_error_description)
+                positiveButton.hasText(R.string.ok)
+                positiveButton.click()
             }
         }
     }

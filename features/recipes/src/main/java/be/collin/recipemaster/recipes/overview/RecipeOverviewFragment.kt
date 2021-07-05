@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -35,7 +36,11 @@ class RecipeOverviewFragment : Fragment(R.layout.fragment_recipe_overview) {
     }
 
     private fun showErrorState() {
-
+        AlertDialog.Builder(requireContext()).setTitle(getString(R.string.error_title))
+            .setMessage(getString(R.string.generic_error_description))
+            .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                dialog.dismiss()
+            }.show()
     }
 
     class RecipesAdapter(private val recipes: RecipeUIModels) : Adapter<RecipeViewHolder>() {
