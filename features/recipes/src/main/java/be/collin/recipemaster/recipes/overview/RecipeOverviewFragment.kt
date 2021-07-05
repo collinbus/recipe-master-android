@@ -28,8 +28,10 @@ class RecipeOverviewFragment : Fragment(R.layout.fragment_recipe_overview) {
         viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is RecipeOverviewViewModel.UIState.Error -> showErrorState()
-                is RecipeOverviewViewModel.UIState.Success -> recipeList.adapter =
-                    RecipesAdapter(uiState.recipeUIModels)
+                is RecipeOverviewViewModel.UIState.Success -> {
+                    recipeList.adapter = RecipesAdapter(uiState.recipeUIModels)
+                    swipeRefreshLayout.isRefreshing = false
+                }
                 RecipeOverviewViewModel.UIState.Loading -> swipeRefreshLayout.isRefreshing = true
             }
         }
