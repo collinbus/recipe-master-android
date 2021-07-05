@@ -1,5 +1,6 @@
 package be.collin.recipemaster.recipes.overview
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
@@ -12,6 +13,7 @@ class RecipeOverviewViewModelImpl(
     override val uiState: LiveData<UIState> = liveData {
         emit(UIState.Loading)
         recipeRepository.getRecipes().fold({
+            Log.d("RecipeOverviewViewModel", it.toString())
             emit(UIState.Error)
         }, { recipes ->
             val uiModels = recipes.map { recipe ->
