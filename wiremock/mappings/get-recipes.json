@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/recipes"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "get-recipes.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
