@@ -14,6 +14,7 @@ abstract class RecipeOverviewViewModel : ViewModel() {
         ) : UIState()
 
         object Error : UIState()
+        object Loading : UIState()
     }
 }
 
@@ -22,6 +23,7 @@ class RecipeOverviewViewModelImpl(
 ) : RecipeOverviewViewModel() {
 
     override val recipes: LiveData<UIState> = liveData {
+        emit(UIState.Loading)
         recipeRepository.getRecipes().fold({
             emit(UIState.Error)
         }, { recipes ->
