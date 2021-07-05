@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import be.collin.recipemaster.recipes.R
 import be.collin.recipemaster.recipes.overview.RecipeOverviewFragment.RecipesAdapter.RecipeViewHolder
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,19 +22,16 @@ class RecipeOverviewFragment : Fragment(R.layout.fragment_recipe_overview) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recipeList = view.findViewById<RecyclerView>(R.id.recipesList)
+        val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshRecipes)
 
-        viewModel.recipes.observe(viewLifecycleOwner) { uiState ->
+        viewModel.uiState.observe(viewLifecycleOwner) { uiState ->
             when (uiState) {
                 is RecipeOverviewViewModel.UIState.Error -> showErrorState()
                 is RecipeOverviewViewModel.UIState.Success -> recipeList.adapter =
                     RecipesAdapter(uiState.recipeUIModels)
-                RecipeOverviewViewModel.UIState.Loading -> showLoadingState()
+                RecipeOverviewViewModel.UIState.Loading -> swipeRefreshLayout.isRefreshing = true
             }
         }
-    }
-
-    private fun showLoadingState() {
-
     }
 
     private fun showErrorState() {

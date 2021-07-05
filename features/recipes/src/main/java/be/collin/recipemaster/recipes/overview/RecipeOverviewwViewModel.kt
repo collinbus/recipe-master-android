@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
 abstract class RecipeOverviewViewModel : ViewModel() {
-    abstract val recipes: LiveData<UIState>
+    abstract val uiState: LiveData<UIState>
 
     sealed class UIState {
         data class Success(

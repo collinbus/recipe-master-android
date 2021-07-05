@@ -9,7 +9,7 @@ class RecipeOverviewViewModelImpl(
     private val recipeRepository: RecipeRepository
 ) : RecipeOverviewViewModel() {
 
-    override val recipes: LiveData<UIState> = liveData {
+    override val uiState: LiveData<UIState> = liveData {
         emit(UIState.Loading)
         recipeRepository.getRecipes().fold({
             emit(UIState.Error)

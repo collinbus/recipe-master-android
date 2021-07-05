@@ -6,10 +6,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import be.collin.recipemaster.recipes.R
+import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModel.UIState.Loading
 import com.agoda.kakao.recycler.KRecyclerItem
 import com.agoda.kakao.recycler.KRecyclerView
 import com.agoda.kakao.screen.Screen
 import com.agoda.kakao.screen.Screen.Companion.onScreen
+import com.agoda.kakao.swiperefresh.KSwipeRefreshLayout
 import com.agoda.kakao.text.KTextView
 import io.kotest.matchers.shouldBe
 import org.hamcrest.Matcher
@@ -25,6 +27,7 @@ class RecipeOverviewFragmentTest {
 
     private class RecipeOverviewScreen : Screen<RecipeOverviewScreen>() {
         val recipes = KRecyclerView({ withId(R.id.recipesList) }, { itemType(::RecipeItem) })
+        val swipeRefresh = KSwipeRefreshLayout { withId(R.id.swipeRefreshRecipes) }
 
         class RecipeItem(parent: Matcher<View>) : KRecyclerItem<RecipeItem>(parent) {
             val title = KTextView(parent) { withId(R.id.recipeTitle) }
@@ -35,33 +38,20 @@ class RecipeOverviewFragmentTest {
 
     @Test
     fun shouldShowListOfRecipesWhenScreenLoaded() {
-        stopKoin()
-        startKoin {
-            modules(module {
-                viewModel<RecipeOverviewViewModel> {
-                    object : RecipeOverviewViewModel() {
-                        override val recipes: LiveData<RecipeOverviewViewModel.UIState>
-                            get() = liveData {
-                                emit(
-                                    RecipeOverviewViewModel.UIState.Success(
-                                        RecipeUIModels(
-                                            listOf(
-                                                RecipeUIModel(Recipe("First", 15, Base64Image(""))),
-                                                RecipeUIModel(Recipe("Second", 1, Base64Image(""))),
-                                                RecipeUIModel(Recipe("Third", 50, Base64Image(""))),
-                                            )
-                                        )
-                                    )
-                                )
-                            }
-                    }
-                }
-            })
-        }
-
-        launchFragmentInContainer(themeResId = R.style.Theme_MaterialComponents_DayNight_DarkActionBar) {
-            RecipeOverviewFragment()
-        }
+        launchRecipeOverviewFragmentInContainerWith(uiStateLiveData =
+        liveData<RecipeOverviewViewModel.UIState> {
+            emit(
+                RecipeOverviewViewModel.UIState.Success(
+                    RecipeUIModels(
+                        listOf(
+                            RecipeUIModel(Recipe("First", 15, Base64Image(""))),
+                            RecipeUIModel(Recipe("Second", 1, Base64Image(""))),
+                            RecipeUIModel(Recipe("Third", 50, Base64Image(""))),
+                        )
+                    )
+                )
+            )
+        })
 
         onScreen<RecipeOverviewScreen> {
             recipes {
@@ -82,6 +72,41 @@ class RecipeOverviewFragmentTest {
                     image.isDisplayed()
                 }
             }
+        }
+    }
+
+    @Test
+    fun shouldShowLoadingIndicatorWhenLoadingStateIsObserved() {
+        launchRecipeOverviewFragmentInContainerWith(
+            uiStateLiveData = liveData<RecipeOverviewViewModel.UIState> {
+                emit(Loading)
+            }
+        )
+
+        onScreen<RecipeOverviewScreen> {
+            swipeRefresh {
+                isRefreshing()
+            }
+        }
+    }
+
+    private fun launchRecipeOverviewFragmentInContainerWith(
+        uiStateLiveData: LiveData<RecipeOverviewViewModel.UIState>
+    ) {
+        stopKoin()
+        startKoin {
+            modules(module {
+                viewModel<RecipeOverviewViewModel> {
+                    object : RecipeOverviewViewModel() {
+                        override val uiState: LiveData<UIState>
+                            get() = uiStateLiveData
+                    }
+                }
+            })
+        }
+
+        launchFragmentInContainer(themeResId = R.style.Theme_MaterialComponents_DayNight_DarkActionBar) {
+            RecipeOverviewFragment()
         }
     }
 }

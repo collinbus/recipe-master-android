@@ -23,7 +23,7 @@ internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
         val viewModel = RecipeOverviewViewModelImpl(recipeRepositoryMock)
 
         `when`("the recipes are observed") {
-            viewModel.recipes.observeForever(observer)
+            viewModel.uiState.observeForever(observer)
 
             then("it should emit the correct recipe ui values") {
                 val expectedUIValues = RecipeUIModels(
@@ -50,7 +50,7 @@ internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
         val viewModel = RecipeOverviewViewModelImpl(recipeRepositoryMock)
 
         `when`("the recipes are observed") {
-            viewModel.recipes.observeForever(observer)
+            viewModel.uiState.observeForever(observer)
 
             then("it should emit the correct error value") {
                 val expectedState = Error
