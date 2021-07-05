@@ -22,12 +22,18 @@ class RecipeOverviewFragment : Fragment(R.layout.fragment_recipe_overview) {
         super.onViewCreated(view, savedInstanceState)
         val recipeList = view.findViewById<RecyclerView>(R.id.recipesList)
 
-        viewModel.recipes.observe(viewLifecycleOwner, { uiState ->
-            when(uiState) {
+        viewModel.recipes.observe(viewLifecycleOwner) { uiState ->
+            when (uiState) {
                 is RecipeOverviewViewModel.UIState.Error -> showErrorState()
-                is RecipeOverviewViewModel.UIState.Success -> recipeList.adapter = RecipesAdapter(uiState.recipeUIModels)
+                is RecipeOverviewViewModel.UIState.Success -> recipeList.adapter =
+                    RecipesAdapter(uiState.recipeUIModels)
+                RecipeOverviewViewModel.UIState.Loading -> showLoadingState()
             }
-        })
+        }
+    }
+
+    private fun showLoadingState() {
+
     }
 
     private fun showErrorState() {

@@ -5,19 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import be.collin.recipemaster.recipes.RecipeRepository
 
-abstract class RecipeOverviewViewModel : ViewModel() {
-    abstract val recipes: LiveData<UIState>
-
-    sealed class UIState {
-        data class Success(
-            val recipeUIModels: RecipeUIModels
-        ) : UIState()
-
-        object Error : UIState()
-        object Loading : UIState()
-    }
-}
-
 class RecipeOverviewViewModelImpl(
     private val recipeRepository: RecipeRepository
 ) : RecipeOverviewViewModel() {
