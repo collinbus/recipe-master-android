@@ -4,10 +4,7 @@ import androidx.lifecycle.Observer
 import be.collin.recipemaster.recipes.RecipeRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.property.arbitrary.next
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verify
+import io.mockk.*
 import kotlinx.coroutines.flow.flow
 
 internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
@@ -15,7 +12,7 @@ internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
     val secondRecipe = recipeArb.next()
     val thirdRecipe = recipeArb.next()
     val recipeRepositoryMock: RecipeRepository = mockk {
-        every { getRecipes() } returns flow { emit(listOf(firstRecipe,secondRecipe,thirdRecipe)) }
+        coEvery { getRecipes() } returns flow { emit(listOf(firstRecipe,secondRecipe,thirdRecipe)) }
     }
 
     given("a RecipeOverviewViewModel") {
