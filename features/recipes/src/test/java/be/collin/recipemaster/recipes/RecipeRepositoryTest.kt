@@ -1,7 +1,9 @@
 package be.collin.recipemaster.recipes
 
+import arrow.core.left
 import be.collin.recipemaster.recipes.overview.Base64Image
 import be.collin.recipemaster.recipes.overview.Recipe
+import be.collin.recipemaster.shouldBeLeftWithValue
 import be.collin.recipemaster.shouldBeRightWithValue
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -38,6 +40,23 @@ internal class RecipeRepositoryTest : BehaviorSpec({
             then("it should return the correct list of recipes") {
                 val expectedRecipes = listOf(Recipe(recipeName, recipeDuration, Base64Image(recipeImageData)))
                 recipes shouldBeRightWithValue expectedRecipes
+            }
+        }
+    }
+
+    given("a RecipeRepository with an unresponsive endpoint") {
+        val exception = IllegalStateException()
+        val api: RecipeApi = mockk {
+            coEvery { getRecipes() } throws exception
+        }
+
+        val repository = RecipeRepository(api)
+
+        `when`("getRecipes is called") {
+            val recipes = repository.getRecipes()
+
+            then("it should return the received exception") {
+                recipes shouldBeLeftWithValue exception
             }
         }
     }
