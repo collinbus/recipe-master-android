@@ -1,6 +1,5 @@
 package be.collin.recipemaster.recipes
 
-import arrow.core.left
 import be.collin.recipemaster.recipes.overview.Base64Image
 import be.collin.recipemaster.recipes.overview.Recipe
 import be.collin.recipemaster.shouldBeLeftWithValue
@@ -57,6 +56,22 @@ internal class RecipeRepositoryTest : BehaviorSpec({
 
             then("it should return the received exception") {
                 recipes shouldBeLeftWithValue exception
+            }
+        }
+    }
+
+    given("a RecipeRepository with a wrong response structure") {
+        val api: RecipeApi = mockk {
+            coEvery { getRecipes() } returns JsonObject()
+        }
+
+        val repository = RecipeRepository(api)
+
+        `when`("getRecipes is called") {
+            val recipes = repository.getRecipes()
+
+            then("it should return the received exception") {
+                recipes shouldBeLeftWithValue NullPointerException()
             }
         }
     }
