@@ -27,7 +27,7 @@ class RecipeOverviewFragmentTest {
         val recipes = KRecyclerView({ withId(R.id.recipesList) }, { itemType(::RecipeItem) })
 
         class RecipeItem(parent: Matcher<View>) : KRecyclerItem<RecipeItem>(parent) {
-            val title = KTextView(parent) { withId(R.id.recipeTitle)  }
+            val title = KTextView(parent) { withId(R.id.recipeTitle) }
             val duration = KTextView(parent) { withId(R.id.recipeDuration) }
             val image = KTextView(parent) { withId(R.id.recipeImage) }
         }
@@ -40,13 +40,20 @@ class RecipeOverviewFragmentTest {
             modules(module {
                 viewModel<RecipeOverviewViewModel> {
                     object : RecipeOverviewViewModel() {
-                        override val recipes: LiveData<RecipeUIModels> get() = liveData {
-                            emit(RecipeUIModels(listOf(
-                                RecipeUIModel(Recipe("First", 15, Base64Image(""))),
-                                RecipeUIModel(Recipe("Second", 1, Base64Image(""))),
-                                RecipeUIModel(Recipe("Third", 50, Base64Image(""))),
-                            )))
-                        }
+                        override val recipes: LiveData<RecipeOverviewViewModel.UIState>
+                            get() = liveData {
+                                emit(
+                                    RecipeOverviewViewModel.UIState.Success(
+                                        RecipeUIModels(
+                                            listOf(
+                                                RecipeUIModel(Recipe("First", 15, Base64Image(""))),
+                                                RecipeUIModel(Recipe("Second", 1, Base64Image(""))),
+                                                RecipeUIModel(Recipe("Third", 50, Base64Image(""))),
+                                            )
+                                        )
+                                    )
+                                )
+                            }
                     }
                 }
             })
