@@ -1,7 +1,5 @@
 package be.collin.recipemaster.recipes.overview
 
-import android.util.Base64
-
 data class Recipe(val name: String, val durationInMinutes: Int, val image: Base64Image)
 
 data class Recipes(val recipes: List<Recipe>) {
