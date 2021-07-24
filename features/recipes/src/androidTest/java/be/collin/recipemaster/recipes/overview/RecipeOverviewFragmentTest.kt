@@ -3,6 +3,7 @@ package be.collin.recipemaster.recipes.overview
 import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.liveData
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -115,13 +116,20 @@ class RecipeOverviewFragmentTest {
     private fun launchRecipeOverviewFragmentInContainerWith(
         uiStateLiveData: LiveData<RecipeOverviewViewModel.UIState>
     ) {
+        val uiStateMediatorLiveData = MediatorLiveData<RecipeOverviewViewModel.UIState>().apply {
+            addSource(uiStateLiveData) { value = it }
+        }
         stopKoin()
         startKoin {
             modules(module {
                 viewModel<RecipeOverviewViewModel> {
                     object : RecipeOverviewViewModel() {
-                        override val uiState: LiveData<UIState>
-                            get() = uiStateLiveData
+                        override val uiState: MediatorLiveData<UIState>
+                            get() = uiStateMediatorLiveData
+
+                        override fun refreshRecipes() {
+
+                        }
                     }
                 }
             })

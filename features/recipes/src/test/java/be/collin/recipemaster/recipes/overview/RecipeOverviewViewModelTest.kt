@@ -19,10 +19,10 @@ internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
             coEvery { getRecipes() } returns listOf(firstRecipe,secondRecipe,thirdRecipe).right()
         }
 
-        val observer: Observer<RecipeOverviewViewModel.UIState> = spyk()
-        val viewModel = RecipeOverviewViewModelImpl(recipeRepositoryMock)
-
         `when`("the recipes are observed") {
+            val viewModel = RecipeOverviewViewModelImpl(recipeRepositoryMock)
+
+            val observer: Observer<RecipeOverviewViewModel.UIState> = spyk()
             viewModel.uiState.observeForever(observer)
 
             then("it should emit the correct recipe ui values") {
@@ -35,6 +35,29 @@ internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
                 )
                 verifySequence {
                     observer.onChanged(Loading)
+                    observer.onChanged(Success(expectedUIValues))
+                }
+            }
+        }
+
+        `when`("the recipes are refreshing") {
+            val viewModel = RecipeOverviewViewModelImpl(recipeRepositoryMock)
+
+            val observer: Observer<RecipeOverviewViewModel.UIState> = spyk()
+            viewModel.uiState.observeForever(observer)
+            viewModel.refreshRecipes()
+
+            then("it should emit the correct recipe ui values") {
+                val expectedUIValues = RecipeUIModels(
+                    listOf(
+                        RecipeUIModel(firstRecipe),
+                        RecipeUIModel(secondRecipe),
+                        RecipeUIModel(thirdRecipe),
+                    )
+                )
+                verifySequence {
+                    observer.onChanged(Loading)
+                    observer.onChanged(Success(expectedUIValues))
                     observer.onChanged(Success(expectedUIValues))
                 }
             }
