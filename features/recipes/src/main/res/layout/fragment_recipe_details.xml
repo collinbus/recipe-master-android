@@ -11,26 +11,34 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        tools:text="Pasta Pesto"
         android:textSize="24sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/titleGuideLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Pasta Pesto" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/titleGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="64dp" />
 
     <ImageView
         android:id="@+id/recipeImage"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@null"
+        app:layout_constraintBottom_toTopOf="@+id/imageGuideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recipeTitle" />
+        app:layout_constraintTop_toTopOf="@+id/titleGuideLine" />
 
     <TextView
         android:id="@+id/recipeDuration"
@@ -40,9 +48,16 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:textSize="16sp"
-        tools:text="Duration: 25 mins"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeImage" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeImage"
+        tools:text="Duration: 25 mins" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imageGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="256dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
