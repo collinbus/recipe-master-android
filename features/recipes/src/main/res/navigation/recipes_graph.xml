@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipes_graph"
+    app:startDestination="@id/recipeOverviewFragment">
+
+    <fragment
+        android:id="@+id/recipeOverviewFragment"
+        android:name="be.collin.recipemaster.recipes.overview.RecipeOverviewFragment"
+        android:label="fragment_recipe_overview"
+        tools:layout="@layout/fragment_recipe_overview" >
+        <action
+            android:id="@+id/action_recipeOverviewFragment_to_recipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="be.collin.recipemaster.recipes.details.RecipeDetailsFragment"
+        android:label="RecipeDetailsFragment" >
+        <argument
+            android:name="recipe"
+            app:argType="be.collin.recipemaster.recipes.overview.Recipe" />
+    </fragment>
+</navigation>
