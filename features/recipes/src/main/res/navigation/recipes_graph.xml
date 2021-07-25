@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/recipeOverviewFragment"
         android:name="be.collin.recipemaster.recipes.overview.RecipeOverviewFragment"
-        android:label="fragment_recipe_overview"
+        android:label="Recipes"
         tools:layout="@layout/fragment_recipe_overview" >
         <action
             android:id="@+id/action_recipeOverviewFragment_to_recipeDetailsFragment"
