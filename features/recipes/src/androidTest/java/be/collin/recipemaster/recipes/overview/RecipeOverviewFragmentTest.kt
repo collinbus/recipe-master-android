@@ -151,6 +151,7 @@ class RecipeOverviewFragmentTest {
 
                         override fun refreshRecipes() {}
                         override fun onRecipeClicked(name: String) {}
+                        override fun resetSelectedRecipe() {}
                     }
                 }
             })

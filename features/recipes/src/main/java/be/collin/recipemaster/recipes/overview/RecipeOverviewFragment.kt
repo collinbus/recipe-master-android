@@ -34,8 +34,14 @@ class RecipeOverviewFragment : Fragment(R.layout.fragment_recipe_overview) {
         }
 
         viewModel.selectedRecipe.observe(viewLifecycleOwner) {
-            val directions = RecipeOverviewFragmentDirections.actionRecipeOverviewFragmentToRecipeDetailsFragment(it)
-            findNavController().navigate(directions)
+            it?.let {
+                viewModel.resetSelectedRecipe()
+                val directions =
+                    RecipeOverviewFragmentDirections.actionRecipeOverviewFragmentToRecipeDetailsFragment(
+                        it
+                    )
+                findNavController().navigate(directions)
+            }
         }
     }
 

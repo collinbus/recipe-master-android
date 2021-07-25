@@ -10,6 +10,7 @@ abstract class RecipeOverviewViewModel : ViewModel() {
     abstract val uiState: MediatorLiveData<UIState>
     abstract fun refreshRecipes()
     abstract fun onRecipeClicked(name: String)
+    abstract fun resetSelectedRecipe()
 
     sealed class UIState {
         data class Success(

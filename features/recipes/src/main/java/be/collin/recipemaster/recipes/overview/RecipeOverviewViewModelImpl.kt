@@ -21,7 +21,7 @@ class RecipeOverviewViewModelImpl(
     private var _recipes: Recipes = Recipes(emptyList())
 
     private val currentState = MutableLiveData<UIState>()
-    private val _selectedRecipe = MutableLiveData<Recipe>()
+    private val _selectedRecipe = MutableLiveData<Recipe?>()
 
     override val selectedRecipe = MediatorLiveData<Recipe>().apply {
         addSource(_selectedRecipe) { value = it }
@@ -44,8 +44,13 @@ class RecipeOverviewViewModelImpl(
     }
 
     override fun onRecipeClicked(name: String) {
-        val recipe = _recipes.recipeWithName(name)
-        _selectedRecipe.value = recipe
+        _recipes.recipeWithName(name).fold({},{ recipe ->
+            _selectedRecipe.value = recipe
+        })
+    }
+
+    override fun resetSelectedRecipe() {
+        _selectedRecipe.value = null
     }
 
     private fun List<Recipe>.toUIModels(): RecipeUIModels = RecipeUIModels(map { recipe ->

@@ -2,6 +2,9 @@ package be.collin.recipemaster
 
 import be.collin.recipemaster.recipes.RecipeApi
 import be.collin.recipemaster.recipes.RecipeRepository
+import be.collin.recipemaster.recipes.details.RecipeDetailsViewModel
+import be.collin.recipemaster.recipes.details.RecipeDetailsViewModelImpl
+import be.collin.recipemaster.recipes.overview.Recipe
 import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModel
 import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModelImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -12,6 +15,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 val recipesModule = module {
     viewModel<RecipeOverviewViewModel> {
         RecipeOverviewViewModelImpl(get())
+    }
+    viewModel<RecipeDetailsViewModel> { params ->
+        RecipeDetailsViewModelImpl(params.get())
     }
     single { RecipeRepository(get()) }
     single<RecipeApi> { provideRetrofit().create(RecipeApi::class.java) }
