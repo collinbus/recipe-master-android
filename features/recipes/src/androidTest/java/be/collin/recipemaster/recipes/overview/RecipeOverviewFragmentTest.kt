@@ -5,6 +5,9 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.liveData
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import be.collin.recipemaster.recipes.R
@@ -39,6 +42,9 @@ class RecipeOverviewFragmentTest {
             val image = KTextView(parent) { withId(R.id.recipeImage) }
         }
     }
+
+    private val navigationController =
+        TestNavHostController(ApplicationProvider.getApplicationContext())
 
     @Test
     fun shouldShowListOfRecipesWhenScreenLoaded() {
@@ -114,8 +120,21 @@ class RecipeOverviewFragmentTest {
         }
     }
 
+    @Test
+    fun shouldNavigateToDetailsScreenWhenRecipeIsSelected() {
+        val value = Recipe("a recipe", 12, Base64Image(""))
+        launchRecipeOverviewFragmentInContainerWith(
+            selectedRecipeLiveData = liveData { emit(value) }
+        )
+
+        onScreen<RecipeOverviewScreen> {
+            navigationController.currentDestination!!.id shouldBe R.id.recipeDetailsFragment
+        }
+    }
+
     private fun launchRecipeOverviewFragmentInContainerWith(
-        uiStateLiveData: LiveData<RecipeOverviewViewModel.UIState>
+        uiStateLiveData: LiveData<RecipeOverviewViewModel.UIState> = liveData { },
+        selectedRecipeLiveData: LiveData<Recipe> = liveData { }
     ) {
         val uiStateMediatorLiveData = MediatorLiveData<RecipeOverviewViewModel.UIState>().apply {
             addSource(uiStateLiveData) { value = it }
@@ -125,19 +144,31 @@ class RecipeOverviewFragmentTest {
             modules(module {
                 viewModel<RecipeOverviewViewModel> {
                     object : RecipeOverviewViewModel() {
+                        override val selectedRecipe: LiveData<Recipe>
+                            get() = selectedRecipeLiveData
                         override val uiState: MediatorLiveData<UIState>
                             get() = uiStateMediatorLiveData
 
-                        override fun refreshRecipes() {
-
-                        }
+                        override fun refreshRecipes() {}
+                        override fun onRecipeClicked(title: String) {}
                     }
                 }
             })
         }
 
         launchFragmentInContainer(themeResId = R.style.Theme_MaterialComponents_DayNight_DarkActionBar) {
-            RecipeOverviewFragment()
+            RecipeOverviewFragment().also { fragment ->
+                fragment.viewLifecycleOwnerLiveData.observeForever {
+                    it?.let {
+                        navigationController.setGraph(R.navigation.recipes_graph)
+                        navigationController.setCurrentDestination(R.id.recipeOverviewFragment)
+                        Navigation.setViewNavController(
+                            fragment.requireView(),
+                            navigationController
+                        )
+                    }
+                }
+            }
         }
     }
 }

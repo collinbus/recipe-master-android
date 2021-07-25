@@ -1,9 +1,6 @@
 package be.collin.recipemaster.recipes.overview
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import be.collin.recipemaster.recipes.RecipeRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,6 +20,9 @@ class RecipeOverviewViewModelImpl(
 
     private val currentState = MutableLiveData<UIState>()
 
+    override val selectedRecipe: LiveData<Recipe>
+        get() = TODO("Not yet implemented")
+
     override val uiState = MediatorLiveData<UIState>().apply {
         addSource(currentState) { value = it }
         addSource(initialState) { value = it }
@@ -36,6 +36,10 @@ class RecipeOverviewViewModelImpl(
                 currentState.postValue(UIState.Success(recipes.toUIModels()))
             })
         }
+    }
+
+    override fun onRecipeClicked(title: String) {
+        TODO("Not yet implemented")
     }
 
     private fun List<Recipe>.toUIModels(): RecipeUIModels = RecipeUIModels(map { recipe ->

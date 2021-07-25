@@ -3,13 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/recipes_graph">
 
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="be.collin.recipemaster.recipes.overview.RecipeOverviewFragment"
-        android:label="@string/title_recipes"
-        tools:layout="@layout/fragment_recipe_overview" />
+    <include app:graph="@navigation/recipes_graph" />
 
     <fragment
         android:id="@+id/navigation_dashboard"

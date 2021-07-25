@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 
 abstract class RecipeOverviewViewModel : ViewModel() {
 
+    abstract val selectedRecipe: LiveData<Recipe>
     abstract val uiState: MediatorLiveData<UIState>
     abstract fun refreshRecipes()
+    abstract fun onRecipeClicked(title: String)
 
     sealed class UIState {
         data class Success(
