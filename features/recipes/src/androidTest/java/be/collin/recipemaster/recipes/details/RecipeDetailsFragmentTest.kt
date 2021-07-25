@@ -33,7 +33,7 @@ class RecipeDetailsFragmentTest {
         val name = "Pasta pesto"
         val durationInMins = 25
         val expectedDuration = "Duration: $durationInMins mins"
-        val recipe = Recipe(name, durationInMins, Base64Image(""))
+        val recipe = Recipe(name, durationInMins, Base64Image("R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="))
 
         launchFragmentInContainerWith(
             liveData { emit(RecipeDetailsUIModel(recipe)) },

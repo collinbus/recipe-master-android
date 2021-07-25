@@ -42,15 +42,16 @@ class RecipeOverviewFragmentTest {
 
     @Test
     fun shouldShowListOfRecipesWhenScreenLoaded() {
+        val data = "R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
         launchRecipeOverviewFragmentInContainerWith(uiStateLiveData =
         liveData<RecipeOverviewViewModel.UIState> {
             emit(
                 RecipeOverviewViewModel.UIState.Success(
                     RecipeUIModels(
                         listOf(
-                            RecipeUIModel(Recipe("First", 15, Base64Image(""))),
-                            RecipeUIModel(Recipe("Second", 1, Base64Image(""))),
-                            RecipeUIModel(Recipe("Third", 50, Base64Image(""))),
+                            RecipeUIModel(Recipe("First", 15, Base64Image(data))),
+                            RecipeUIModel(Recipe("Second", 1, Base64Image(data))),
+                            RecipeUIModel(Recipe("Third", 50, Base64Image(data))),
                         )
                     )
                 )
