@@ -14,14 +14,18 @@ class RecipeOverviewViewModelImpl(
         recipeRepository.getRecipes().fold({
             emit(UIState.Error)
         }, { recipes ->
+            _recipes = Recipes(recipes)
             emit(UIState.Success(recipes.toUIModels()))
         })
     }
+    private var _recipes: Recipes = Recipes(emptyList())
 
     private val currentState = MutableLiveData<UIState>()
+    private val _selectedRecipe = MutableLiveData<Recipe>()
 
-    override val selectedRecipe: LiveData<Recipe>
-        get() = TODO("Not yet implemented")
+    override val selectedRecipe = MediatorLiveData<Recipe>().apply {
+        addSource(_selectedRecipe) { value = it }
+    }
 
     override val uiState = MediatorLiveData<UIState>().apply {
         addSource(currentState) { value = it }
@@ -33,13 +37,15 @@ class RecipeOverviewViewModelImpl(
             recipeRepository.getRecipes().fold({
                 currentState.postValue(UIState.Error)
             }, { recipes ->
+                _recipes = Recipes(recipes)
                 currentState.postValue(UIState.Success(recipes.toUIModels()))
             })
         }
     }
 
-    override fun onRecipeClicked(title: String) {
-        TODO("Not yet implemented")
+    override fun onRecipeClicked(name: String) {
+        val recipe = _recipes.recipeWithName(name)
+        _selectedRecipe.value = recipe
     }
 
     private fun List<Recipe>.toUIModels(): RecipeUIModels = RecipeUIModels(map { recipe ->

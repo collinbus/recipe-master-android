@@ -40,6 +40,19 @@ internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
             }
         }
 
+        `when`("a recipe is clicked") {
+            val observer: Observer<Recipe> = spyk()
+            val viewModel = RecipeOverviewViewModelImpl(recipeRepositoryMock)
+            viewModel.uiState.observeForever(spyk())
+            viewModel.selectedRecipe.observeForever(observer)
+
+            viewModel.onRecipeClicked(secondRecipe.name)
+
+            then("it should update the selected recipe with the correct value") {
+                verify { observer.onChanged(secondRecipe) }
+            }
+        }
+
         `when`("the recipes are refreshing") {
             val viewModel = RecipeOverviewViewModelImpl(recipeRepositoryMock)
 

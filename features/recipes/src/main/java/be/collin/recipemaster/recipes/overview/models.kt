@@ -7,8 +7,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Recipe(val name: String, val durationInMinutes: Int, val image: Base64Image) : Parcelable
 
-data class Recipes(val recipes: List<Recipe>) {
-    inline fun forEach(action: (Recipe) -> Unit): Unit = recipes.forEach(action)
+data class Recipes(private val recipes: List<Recipe>) {
+    fun recipeWithName(name: String) = recipes.first {
+        it.name == name
+    }
 }
 
 @Parcelize

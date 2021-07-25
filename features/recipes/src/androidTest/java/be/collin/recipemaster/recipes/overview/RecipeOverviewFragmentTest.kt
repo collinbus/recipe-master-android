@@ -150,7 +150,7 @@ class RecipeOverviewFragmentTest {
                             get() = uiStateMediatorLiveData
 
                         override fun refreshRecipes() {}
-                        override fun onRecipeClicked(title: String) {}
+                        override fun onRecipeClicked(name: String) {}
                     }
                 }
             })
