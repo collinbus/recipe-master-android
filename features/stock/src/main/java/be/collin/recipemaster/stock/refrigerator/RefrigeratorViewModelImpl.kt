@@ -43,6 +43,7 @@ class RefrigeratorViewModelImpl : RefrigeratorViewModel() {
     }
 
     override fun decreaseQuantityOf(stockItem: StockItem) {
-        TODO("Not yet implemented")
+        stockItem.quantity.decrement()
+        updateLiveData.value = UIState.Updated(stockItem)
     }
 }

@@ -12,12 +12,11 @@ import io.mockk.verifySequence
 
 internal class RefrigeratorViewModelTest: BehaviorSpec({
     given("a RefrigeratorViewModel") {
-        val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
-
         val viewModel = RefrigeratorViewModelImpl()
-        viewModel.uiState.observeForever(observer)
 
         `when`("the viewModel is created") {
+            val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
+            viewModel.uiState.observeForever(observer)
 
             then("it emit the correct ui state") {
                 val firstName = "Tomato"
@@ -40,9 +39,29 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
         }
 
         `when`("the quantity of an item is increased") {
+            val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
             val updatedStockItem = StockItem("Tomato", Quantity(2))
-            viewModel.increaseQuantityOf(updatedStockItem)
             val expectedQuantity = Quantity(3)
+            viewModel.uiState.observeForever(observer)
+
+            viewModel.increaseQuantityOf(updatedStockItem)
+
+            then("it should update the ui state with the correct values") {
+                verifySequence {
+                    observer.onChanged(any())
+                    observer.onChanged(RefrigeratorViewModel.UIState.Updated(updatedStockItem))
+                    updatedStockItem.quantity shouldBe expectedQuantity
+                }
+            }
+        }
+
+        `when`("the quantity of an item is decreased") {
+            val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
+            val updatedStockItem = StockItem("Tomato", Quantity(2))
+            val expectedQuantity = Quantity(1)
+            viewModel.uiState.observeForever(observer)
+
+            viewModel.decreaseQuantityOf(updatedStockItem)
 
             then("it should update the ui state with the correct values") {
                 verifySequence {
