@@ -21,4 +21,14 @@ internal class QuantityTest : StringSpec({
 
         quantity.value shouldBe expectedValue
     }
+
+    "should return correct value when quantity is decremented" {
+        val value = 5
+        val expectedValue = 4
+        val quantity = Quantity(value)
+
+        quantity.decrement()
+
+        quantity.value shouldBe expectedValue
+    }
 })
