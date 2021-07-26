@@ -23,6 +23,7 @@ data class Quantity(private var quantity: Int) {
     }
 
     fun decrement() {
-        quantity--
+        if (quantity > 0)
+            quantity--
     }
 }

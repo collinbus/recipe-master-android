@@ -31,4 +31,14 @@ internal class QuantityTest : StringSpec({
 
         quantity.value shouldBe expectedValue
     }
+
+    "should not decrement value if decrementing at value 0" {
+        val value = 0
+        val expectedValue = 0
+        val quantity = Quantity(value)
+
+        quantity.decrement()
+
+        quantity.value shouldBe 0
+    }
 })
