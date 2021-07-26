@@ -25,11 +25,19 @@ internal class StockItemsTest : BehaviorSpec({
             }
         }
 
-        `when`("you want to get the third element") {
+        `when`("The third element is requested") {
             val element = stockItems[2]
 
             then("it should return the correct element") {
                 element shouldBe thirdElement
+            }
+        }
+
+        `when`("The index of the third element is requested") {
+            val index = stockItems.indexOf(thirdElement)
+
+            then("it should return 2") {
+                index shouldBe 2
             }
         }
     }
