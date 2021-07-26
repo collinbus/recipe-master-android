@@ -2,3 +2,4 @@ rootProject.name = "Recipe Master"
 
 include ':app',
         ':features:recipes'
+include ':features:stock'
