@@ -1,7 +1,7 @@
 package be.collin.recipemaster.recipes
 
 import be.collin.recipemaster.recipes.overview.Recipes
-import be.collin.recipemaster.recipes.overview.recipeArb
+import be.collin.recipemaster.recipeArb
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe

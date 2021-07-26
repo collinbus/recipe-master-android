@@ -3,6 +3,7 @@ package be.collin.recipemaster.recipes.overview
 import androidx.lifecycle.Observer
 import arrow.core.left
 import arrow.core.right
+import be.collin.recipemaster.recipeArb
 import be.collin.recipemaster.recipes.RecipeRepository
 import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModel.UIState.*
 import io.kotest.core.spec.style.BehaviorSpec

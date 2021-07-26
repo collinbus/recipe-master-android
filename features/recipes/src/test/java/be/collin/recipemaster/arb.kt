@@ -1,5 +1,7 @@
-package be.collin.recipemaster.recipes.overview
+package be.collin.recipemaster
 
+import be.collin.recipemaster.recipes.overview.Base64Image
+import be.collin.recipemaster.recipes.overview.Recipe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.arbitrary
 import io.kotest.property.arbitrary.int
