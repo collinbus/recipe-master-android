@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import be.collin.recipemaster.stock.R
+import be.collin.recipemaster.stock.StockItem
+import be.collin.recipemaster.stock.StockItems
 
 class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
 
@@ -17,7 +19,28 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
         val refrigerator: RecyclerView = view.findViewById(R.id.stockItemRecyclerView)
 
         viewModel.fridgeItems.observe(viewLifecycleOwner) {
-            refrigerator.adapter = RefrigeratorAdapter(it)
+            when(it) {
+                is RefrigeratorViewModel.UIState.Initialized -> {
+                    initializeAdapter(refrigerator, it.stockItems)
+                }
+                is RefrigeratorViewModel.UIState.Updated -> {
+                    (refrigerator.adapter as RefrigeratorAdapter).update(it.stockItem)
+                }
+            }
+
         }
+    }
+
+    private fun initializeAdapter(refrigerator: RecyclerView, stockItems: StockItems) {
+        refrigerator.adapter =
+            RefrigeratorAdapter(stockItems, object : StockItemQuantityChangedListener {
+                override fun quantityIncreased(stockItem: StockItem) {
+                    viewModel.increaseQuantityOf(stockItem)
+                }
+
+                override fun quantityDecreased(stockItem: StockItem) {
+                    viewModel.decreaseQuantityOf(stockItem)
+                }
+            })
     }
 }
