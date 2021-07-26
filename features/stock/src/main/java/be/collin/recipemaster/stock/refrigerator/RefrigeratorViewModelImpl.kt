@@ -2,6 +2,7 @@ package be.collin.recipemaster.stock.refrigerator
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
@@ -29,12 +30,16 @@ class RefrigeratorViewModelImpl : RefrigeratorViewModel() {
         )
     }
 
+    private val updateLiveData = MutableLiveData<UIState>()
+
     override val uiState = MediatorLiveData<UIState>().apply {
         addSource(initialState) { value = it }
+        addSource(updateLiveData) { value = it }
     }
 
     override fun increaseQuantityOf(stockItem: StockItem) {
-        TODO("Not yet implemented")
+        stockItem.quantity.increment()
+        updateLiveData.value = UIState.Updated(stockItem)
     }
 
     override fun decreaseQuantityOf(stockItem: StockItem) {

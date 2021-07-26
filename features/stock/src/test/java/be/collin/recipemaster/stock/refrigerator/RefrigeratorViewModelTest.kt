@@ -5,16 +5,19 @@ import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.spyk
 import io.mockk.verify
+import io.mockk.verifySequence
 
 internal class RefrigeratorViewModelTest: BehaviorSpec({
     given("a RefrigeratorViewModel") {
         val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
 
         val viewModel = RefrigeratorViewModelImpl()
+        viewModel.uiState.observeForever(observer)
+
         `when`("the viewModel is created") {
-            viewModel.uiState.observeForever(observer)
 
             then("it emit the correct ui state") {
                 val firstName = "Tomato"
@@ -33,6 +36,20 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
                     )
                 )
                 verify { observer.onChanged(expectedUIState) }
+            }
+        }
+
+        `when`("the quantity of an item is increased") {
+            val updatedStockItem = StockItem("Tomato", Quantity(2))
+            viewModel.increaseQuantityOf(updatedStockItem)
+            val expectedQuantity = Quantity(3)
+
+            then("it should update the ui state with the correct values") {
+                verifySequence {
+                    observer.onChanged(any())
+                    observer.onChanged(RefrigeratorViewModel.UIState.Updated(updatedStockItem))
+                    updatedStockItem.quantity shouldBe expectedQuantity
+                }
             }
         }
     }
