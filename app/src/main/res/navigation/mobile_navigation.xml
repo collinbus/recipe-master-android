@@ -8,10 +8,10 @@
     <include app:graph="@navigation/recipes_graph" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="be.collin.recipemaster.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/fragment_refrigerator"
+        android:name="be.collin.recipemaster.stock.refrigerator.RefrigeratorFragment"
+        android:label="@string/title_refrigerator"
+        tools:layout="@layout/fragment_stock_item_list" />
 
     <fragment
         android:id="@+id/navigation_notifications"

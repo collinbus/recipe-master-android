@@ -1,10 +1,9 @@
-package be.collin.recipemaster
+package be.collin.recipemaster.recipes.di
 
 import be.collin.recipemaster.recipes.RecipeApi
 import be.collin.recipemaster.recipes.RecipeRepository
 import be.collin.recipemaster.recipes.details.RecipeDetailsViewModel
 import be.collin.recipemaster.recipes.details.RecipeDetailsViewModelImpl
-import be.collin.recipemaster.recipes.overview.Recipe
 import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModel
 import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModelImpl
 import org.koin.androidx.viewmodel.dsl.viewModel
