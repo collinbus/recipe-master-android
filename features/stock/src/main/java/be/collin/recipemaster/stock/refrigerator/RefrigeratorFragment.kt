@@ -18,7 +18,7 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
 
         val refrigerator: RecyclerView = view.findViewById(R.id.stockItemRecyclerView)
 
-        viewModel.fridgeItems.observe(viewLifecycleOwner) {
+        viewModel.uiState.observe(viewLifecycleOwner) {
             when(it) {
                 is RefrigeratorViewModel.UIState.Initialized -> {
                     initializeAdapter(refrigerator, it.stockItems)

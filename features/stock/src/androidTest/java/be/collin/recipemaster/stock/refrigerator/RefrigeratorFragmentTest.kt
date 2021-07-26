@@ -124,22 +124,22 @@ class RefrigeratorFragmentTest {
             modules(module {
                 viewModel<RefrigeratorViewModel> {
                     object : RefrigeratorViewModel() {
-                        val uiState = MediatorLiveData<UIState>().apply {
+                        val uiStateMediatorLiveData = MediatorLiveData<UIState>().apply {
                             addSource(fridgeItemsLiveData) { value = it }
                         }
 
                         override fun increaseQuantityOf(stockItem: StockItem) {
                             stockItem.quantity.increment()
-                            uiState.postValue(UIState.Updated(stockItem))
+                            this.uiStateMediatorLiveData.postValue(UIState.Updated(stockItem))
                         }
 
                         override fun decreaseQuantityOf(stockItem: StockItem) {
                             stockItem.quantity.decrement()
-                            uiState.postValue(UIState.Updated(stockItem))
+                            this.uiStateMediatorLiveData.postValue(UIState.Updated(stockItem))
                         }
 
-                        override val fridgeItems: LiveData<UIState>
-                            get() = uiState
+                        override val uiState: LiveData<UIState>
+                            get() = this.uiStateMediatorLiveData
                     }
                 }
             })
