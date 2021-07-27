@@ -13,7 +13,7 @@ class StockItemRepository(private val refrigeratorDao: RefrigeratorDao) {
         withContext(Dispatchers.IO) {
             refrigeratorDao.getRefrigeratorStockItems().map {
                 StockItem(it.id, it.name, Quantity(it.quantity))
-            }
+            }.toMutableList()
         }
     )
 

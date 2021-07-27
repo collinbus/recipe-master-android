@@ -2,7 +2,7 @@ package be.collin.recipemaster.stock
 
 import java.util.*
 
-data class StockItems(private val stockItems: List<StockItem>) {
+data class StockItems(private val stockItems: MutableList<StockItem>) {
     val size: Int get() = stockItems.size
 
     operator fun get(position: Int): StockItem = stockItems[position]
@@ -15,6 +15,10 @@ data class StockItems(private val stockItems: List<StockItem>) {
     fun indexOf(stockItem: StockItem): Int = stockItems.indexOf(stockItem)
 
     fun forEach(action: (StockItem) -> Unit) = stockItems.forEach(action)
+
+    fun add(stockItem: StockItem) {
+        stockItems.add(stockItem)
+    }
 }
 
 data class StockItem(

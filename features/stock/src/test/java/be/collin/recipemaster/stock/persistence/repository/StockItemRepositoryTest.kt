@@ -29,7 +29,7 @@ internal class StockItemRepositoryTest : StringSpec({
         val stockItems = repository.getRefrigeratorStockItems()
 
         stockItems shouldBe StockItems(
-            listOf(
+            mutableListOf(
                 StockItem(id1, name1, Quantity(quantity1)),
                 StockItem(id2, name2, Quantity(quantity2))
             )
@@ -43,7 +43,7 @@ internal class StockItemRepositoryTest : StringSpec({
         val name = "name"
         val quantity = Quantity(5)
 
-        repository.insertRefrigeratorStockItems(StockItems(listOf(StockItem(id, name, quantity))))
+        repository.insertRefrigeratorStockItems(StockItems(mutableListOf(StockItem(id, name, quantity))))
 
         coVerify { refrigeratorDao.addRefrigeratorStockItem(StockItemEntity(id, name, quantity.value, 1)) }
     }

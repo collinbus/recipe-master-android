@@ -4,6 +4,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
 import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
@@ -45,5 +46,14 @@ class RefrigeratorViewModelImpl(
         viewModelScope.launch {
             repository.insertRefrigeratorStockItems(stockItems)
         }
+    }
+
+    override fun addStockItem() {
+        val stockItem = StockItem(name = "New item", quantity = Quantity(1))
+        stockItems.add(stockItem)
+        viewModelScope.launch {
+            repository.insertRefrigeratorStockItems(StockItems(mutableListOf(stockItem)))
+        }
+        updateLiveData.value = UIState.Added(stockItem)
     }
 }

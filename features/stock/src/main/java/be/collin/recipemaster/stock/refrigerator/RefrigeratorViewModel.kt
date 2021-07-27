@@ -10,6 +10,7 @@ abstract class RefrigeratorViewModel : ViewModel() {
     abstract fun decreaseQuantityOf(stockItem: StockItem)
     abstract fun changeName(newName: String, stockItem: StockItem)
     abstract fun saveStockItems()
+    abstract fun addStockItem()
 
     abstract val uiState: LiveData<UIState>
 
@@ -17,8 +18,13 @@ abstract class RefrigeratorViewModel : ViewModel() {
         data class Initialized(
             val stockItems: StockItems
         ) : UIState()
+
         data class Updated(
             val stockItem: StockItem
-        ): UIState()
+        ) : UIState()
+
+        data class Added(
+            val stockItem: StockItem
+        ) : UIState()
     }
 }

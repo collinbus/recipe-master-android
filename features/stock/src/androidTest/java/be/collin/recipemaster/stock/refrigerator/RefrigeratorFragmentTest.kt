@@ -54,7 +54,7 @@ class RefrigeratorFragmentTest {
             emit(
                 RefrigeratorViewModel.UIState.Initialized(
                     StockItems(
-                        listOf(
+                        mutableListOf(
                             StockItem(name = firstName, quantity = Quantity(firstQuantity)),
                             StockItem(name = secondName, quantity = Quantity(secondQuantity)),
                             StockItem(name = thirdName, quantity = Quantity(thirdQuantity)),
@@ -93,7 +93,7 @@ class RefrigeratorFragmentTest {
             emit(
                 RefrigeratorViewModel.UIState.Initialized(
                     StockItems(
-                        listOf(
+                        mutableListOf(
                             StockItem(name = firstName, quantity = Quantity(firstQuantity)),
                         )
                     )
@@ -140,6 +140,7 @@ class RefrigeratorFragmentTest {
 
                         override fun changeName(newName: String, stockItem: StockItem) {}
                         override fun saveStockItems() {}
+                        override fun addStockItem() {}
 
                         override val uiState: LiveData<UIState>
                             get() = this.uiStateMediatorLiveData

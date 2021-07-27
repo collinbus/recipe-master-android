@@ -9,13 +9,15 @@ internal class StockItemsTest : BehaviorSpec({
     given("5 StockItems") {
         val thirdElement = stockItemArb.next()
 
-        val stockItems = StockItems(listOf(
-            stockItemArb.next(),
-            stockItemArb.next(),
-            thirdElement,
-            stockItemArb.next(),
-            stockItemArb.next()
-        ))
+        val stockItems = StockItems(
+            mutableListOf(
+                stockItemArb.next(),
+                stockItemArb.next(),
+                thirdElement,
+                stockItemArb.next(),
+                stockItemArb.next()
+            )
+        )
 
         `when`("size is requested") {
             val size = stockItems.size
@@ -69,6 +71,16 @@ internal class StockItemsTest : BehaviorSpec({
                 val stockItem = stockItems[2]
                 stockItem.name shouldBe thirdElement.name
                 stockItem.quantity shouldBe thirdElement.quantity
+            }
+        }
+
+        `when`("adding a stockItem") {
+            val stockItem = StockItem("id", "name", Quantity(1))
+
+            stockItems.add(stockItem)
+
+            then("it should be added to the list") {
+                stockItems[5] shouldBe stockItem
             }
         }
     }

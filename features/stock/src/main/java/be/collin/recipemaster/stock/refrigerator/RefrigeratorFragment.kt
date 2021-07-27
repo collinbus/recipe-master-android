@@ -26,6 +26,9 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
                 is RefrigeratorViewModel.UIState.Updated -> {
                     (refrigerator.adapter as RefrigeratorAdapter).update(it.stockItem)
                 }
+                is RefrigeratorViewModel.UIState.Added -> {
+                    viewModel.addStockItem()
+                }
             }
 
         }
