@@ -55,9 +55,9 @@ class RefrigeratorFragmentTest {
                 RefrigeratorViewModel.UIState.Initialized(
                     StockItems(
                         listOf(
-                            StockItem(firstName, Quantity(firstQuantity)),
-                            StockItem(secondName, Quantity(secondQuantity)),
-                            StockItem(thirdName, Quantity(thirdQuantity)),
+                            StockItem(name = firstName, quantity = Quantity(firstQuantity)),
+                            StockItem(name = secondName, quantity = Quantity(secondQuantity)),
+                            StockItem(name = thirdName, quantity = Quantity(thirdQuantity)),
                         )
                     )
                 ) as RefrigeratorViewModel.UIState
@@ -94,7 +94,7 @@ class RefrigeratorFragmentTest {
                 RefrigeratorViewModel.UIState.Initialized(
                     StockItems(
                         listOf(
-                            StockItem(firstName, Quantity(firstQuantity)),
+                            StockItem(name = firstName,  quantity = Quantity(firstQuantity)),
                         )
                     )
                 ) as RefrigeratorViewModel.UIState
@@ -106,10 +106,10 @@ class RefrigeratorFragmentTest {
                 childAt<RefrigeratorScreen.RefrigeratorItem>(0) {
                     quantity.hasText("$firstQuantity")
                     increment.click()
-                    sleep(10)
+                    sleep(50)
                     quantity.hasText("${firstQuantity + 1}")
                     decrement.click()
-                    sleep(10)
+                    sleep(50)
                     quantity.hasText("$firstQuantity")
                 }
             }
@@ -137,6 +137,8 @@ class RefrigeratorFragmentTest {
                             stockItem.quantity.decrement()
                             this.uiStateMediatorLiveData.postValue(UIState.Updated(stockItem))
                         }
+
+                        override fun changeName(newName: String, stockItem: StockItem) {}
 
                         override val uiState: LiveData<UIState>
                             get() = this.uiStateMediatorLiveData
