@@ -49,23 +49,8 @@ class RefrigeratorAdapter(
             decrementBtn.setOnClickListener {
                 stockItemChangedListener.quantityDecreased(stockItem)
             }
-            name.addTextChangedListener(object : TextWatcher{
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    stockItemChangedListener.nameChanged(s.toString(), stockItem)
-                }
+            name.addTextChangedListener(NameChangedTextWatcher { s: Editable ->
+                stockItemChangedListener.nameChanged(s.toString(), stockItem)
             })
         }
 
@@ -73,5 +58,19 @@ class RefrigeratorAdapter(
             name.text = model.name
             quantity.text = model.quantity
         }
+    }
+
+    private class NameChangedTextWatcher(private val textChanged: (text: Editable) -> Unit) : TextWatcher {
+        override fun beforeTextChanged(
+            s: CharSequence?,
+            start: Int,
+            count: Int,
+            after: Int
+        ) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+        override fun afterTextChanged(s: Editable) = textChanged.invoke(s)
     }
 }
