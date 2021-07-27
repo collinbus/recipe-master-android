@@ -57,4 +57,11 @@ class RefrigeratorViewModelImpl(
         }
         updateLiveData.value = UIState.Added(stockItem)
     }
+
+    override fun removeItemAt(position: Int) {
+        viewModelScope.launch {
+            repository.removeRefrigeratorStockItem(stockItems?.get(position)!!)
+        }
+        updateLiveData.value = UIState.Removed(position)
+    }
 }
