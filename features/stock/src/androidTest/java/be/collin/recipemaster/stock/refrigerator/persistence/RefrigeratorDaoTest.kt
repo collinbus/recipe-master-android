@@ -12,6 +12,7 @@ import be.collin.recipemaster.stock.persistence.AppDatabase
 import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.collections.shouldNotContain
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -56,18 +57,29 @@ class RefrigeratorDaoTest {
     fun shouldGetCorrectStockItems() = runBlocking {
         val refrigeratorStockItems = dao.getRefrigeratorStockItems()
 
-        refrigeratorStockItems shouldContain StockItemEntity("id1","name1", 5, 1)
-        refrigeratorStockItems shouldContain StockItemEntity("id2","name2", 10, 1)
+        refrigeratorStockItems shouldContain StockItemEntity("id1", "name1", 5, 1)
+        refrigeratorStockItems shouldContain StockItemEntity("id2", "name2", 10, 1)
     }
 
     @Test
     fun shouldUpdateStockItemsCorrectly() = runBlocking {
-        dao.addRefrigeratorStockItem(StockItemEntity("id1","another name", 6, 1))
+        dao.addRefrigeratorStockItem(StockItemEntity("id1", "another name", 6, 1))
 
         val refrigeratorStockItems = dao.getRefrigeratorStockItems()
 
-        refrigeratorStockItems shouldContain StockItemEntity("id1","another name", 6, 1)
+        refrigeratorStockItems shouldContain StockItemEntity("id1", "another name", 6, 1)
         refrigeratorStockItems.size shouldBe 2
+    }
+
+    @Test
+    fun shouldRemoveItemsCorrectly() = runBlocking {
+        val stockItem = StockItemEntity("id1", "name1", 5, 1)
+
+        dao.removeStockItem(stockItem)
+
+        val refrigeratorStockItems = dao.getRefrigeratorStockItems()
+        refrigeratorStockItems.size shouldBe 1
+        refrigeratorStockItems shouldNotContain stockItem
     }
 
     @After
