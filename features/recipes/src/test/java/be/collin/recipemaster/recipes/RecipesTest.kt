@@ -2,6 +2,8 @@ package be.collin.recipemaster.recipes
 
 import be.collin.recipemaster.recipes.overview.Recipes
 import be.collin.recipemaster.recipeArb
+import be.collin.recipemaster.shouldBeLeftWithValue
+import be.collin.recipemaster.shouldBeRightWithValue
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -22,7 +24,7 @@ class RecipesTest : StringSpec({
 
         val recipe = recipes.recipeWithName("second")
 
-        recipe shouldBe second
+        recipe shouldBeRightWithValue second
     }
 
     "recipeWithName should throw exception if recipe does not exist" {
@@ -37,8 +39,6 @@ class RecipesTest : StringSpec({
             )
         )
 
-        shouldThrow<NoSuchElementException> {
-            recipes.recipeWithName("fourth")
-        }
+        recipes.recipeWithName("fourth") shouldBeLeftWithValue NoSuchElementException("Collection contains no element matching the predicate.")
     }
 })
