@@ -39,6 +39,8 @@ class RecipeDetailsFragment : Fragment(R.layout.fragment_recipe_details) {
     }
 
     private fun updateToolbar(title: String) {
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = title
+        if (activity is AppCompatActivity) {
+            (activity as AppCompatActivity).supportActionBar?.title = title
+        }
     }
 }
