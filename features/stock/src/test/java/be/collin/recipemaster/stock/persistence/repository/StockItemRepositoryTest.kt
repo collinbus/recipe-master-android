@@ -47,4 +47,16 @@ internal class StockItemRepositoryTest : StringSpec({
 
         coVerify { refrigeratorDao.addRefrigeratorStockItem(StockItemEntity(id, name, quantity.value, 1)) }
     }
+
+    "should call remove on dao with correct stock item type when an item is added" {
+        val refrigeratorDao: RefrigeratorDao = mockk()
+        val repository = StockItemRepository(refrigeratorDao)
+        val id = "id"
+        val name = "name"
+        val quantity = Quantity(5)
+
+        repository.removeRefrigeratorStockItem(StockItem(id, name, quantity))
+
+        coVerify { refrigeratorDao.removeStockItem(StockItemEntity(id, name, quantity.value, 1)) }
+    }
 })

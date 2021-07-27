@@ -34,6 +34,17 @@ class StockItemRepository(private val refrigeratorDao: RefrigeratorDao) {
         }
     }
 
+    suspend fun removeRefrigeratorStockItem(stockItem: StockItem) {
+        withContext(Dispatchers.IO) {
+            refrigeratorDao.removeStockItem(
+                StockItemEntity(
+                    stockItem.id, stockItem.name, stockItem.quantity.value,
+                    REFRIGERATOR_STOCK_ITEM_TYPE
+                )
+            )
+        }
+    }
+
     companion object {
         private const val REFRIGERATOR_STOCK_ITEM_TYPE = 1
     }
