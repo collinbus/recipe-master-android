@@ -8,6 +8,7 @@ import be.collin.recipemaster.stock.StockItems
 abstract class RefrigeratorViewModel : ViewModel() {
     abstract fun increaseQuantityOf(stockItem: StockItem)
     abstract fun decreaseQuantityOf(stockItem: StockItem)
+    abstract fun changeName(newName: String, stockItem: StockItem)
 
     abstract val uiState: LiveData<UIState>
 

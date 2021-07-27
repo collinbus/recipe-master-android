@@ -1,5 +1,7 @@
 package be.collin.recipemaster.stock.refrigerator
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RefrigeratorAdapter(
     private val stockItems: StockItems,
-    private val stockItemQuantityChangedListener: StockItemQuantityChangedListener
+    private val stockItemChangedListener: StockItemChangedListener
 ) : RecyclerView.Adapter<StockItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockItemViewHolder {
@@ -23,7 +25,7 @@ class RefrigeratorAdapter(
     }
 
     override fun onBindViewHolder(holder: StockItemViewHolder, position: Int) {
-        holder.bind(stockItems[position], stockItemQuantityChangedListener)
+        holder.bind(stockItems[position], stockItemChangedListener)
     }
 
     override fun getItemCount(): Int = stockItems.size
@@ -39,14 +41,32 @@ class RefrigeratorAdapter(
         private val incrementBtn = itemView.findViewById<FloatingActionButton>(R.id.incrementFab)
         private val decrementBtn = itemView.findViewById<FloatingActionButton>(R.id.decrementFab)
 
-        fun bind(stockItem: StockItem, stockItemQuantityChangedListener: StockItemQuantityChangedListener) {
+        fun bind(stockItem: StockItem, stockItemChangedListener: StockItemChangedListener) {
             updateData(StockItemUIModel(stockItem))
             incrementBtn.setOnClickListener {
-                stockItemQuantityChangedListener.quantityIncreased(stockItem)
+                stockItemChangedListener.quantityIncreased(stockItem)
             }
             decrementBtn.setOnClickListener {
-                stockItemQuantityChangedListener.quantityDecreased(stockItem)
+                stockItemChangedListener.quantityDecreased(stockItem)
             }
+            name.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    stockItemChangedListener.nameChanged(s.toString(), stockItem)
+                }
+            })
         }
 
         private fun updateData(model: StockItemUIModel) {

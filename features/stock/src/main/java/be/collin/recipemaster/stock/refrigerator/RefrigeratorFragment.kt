@@ -33,7 +33,11 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
 
     private fun initializeAdapter(refrigerator: RecyclerView, stockItems: StockItems) {
         refrigerator.adapter =
-            RefrigeratorAdapter(stockItems, object : StockItemQuantityChangedListener {
+            RefrigeratorAdapter(stockItems, object : StockItemChangedListener {
+                override fun nameChanged(newName: String, stockItem: StockItem) {
+                    viewModel.changeName(newName, stockItem)
+                }
+
                 override fun quantityIncreased(stockItem: StockItem) {
                     viewModel.increaseQuantityOf(stockItem)
                 }

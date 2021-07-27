@@ -76,5 +76,18 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
                 }
             }
         }
+
+        `when`("the name of an item is changed") {
+            val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
+            val updatedName = "Tomatos"
+            val updatedStockItem = StockItem(name = "Tomato", quantity = Quantity(3))
+            viewModel.uiState.observeForever(observer)
+
+            viewModel.changeName(updatedName, updatedStockItem)
+
+            then("it should update it") {
+                updatedStockItem.name shouldBe updatedName
+            }
+        }
     }
 })

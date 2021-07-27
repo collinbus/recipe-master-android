@@ -9,7 +9,7 @@ import be.collin.recipemaster.stock.StockItemRepository
 import be.collin.recipemaster.stock.StockItems
 
 class RefrigeratorViewModelImpl(
-    private val repository : StockItemRepository
+    private val repository: StockItemRepository
 ) : RefrigeratorViewModel() {
 
     private val stockItems = repository.getStockItems()
@@ -29,5 +29,11 @@ class RefrigeratorViewModelImpl(
     override fun decreaseQuantityOf(stockItem: StockItem) {
         stockItem.quantity.decrement()
         updateLiveData.value = UIState.Updated(stockItem)
+    }
+
+    override fun changeName(newName: String, stockItem: StockItem) {
+        if (stockItem.name != newName) {
+            stockItem.name = newName
+        }
     }
 }
