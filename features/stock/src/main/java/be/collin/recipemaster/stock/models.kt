@@ -6,8 +6,8 @@ data class StockItems(private val stockItems: List<StockItem>) {
     operator fun get(position: Int): StockItem = stockItems[position]
 
     fun update(stockItem: StockItem) {
-        val targetStockItem = stockItems.first { it.name == stockItem.name }
-        targetStockItem.quantity = stockItem.quantity
+        val targetStockItem = stockItems.firstOrNull { it.name == stockItem.name }
+        targetStockItem?.quantity = stockItem.quantity
     }
 
     fun indexOf(stockItem: StockItem): Int = stockItems.indexOf(stockItem)

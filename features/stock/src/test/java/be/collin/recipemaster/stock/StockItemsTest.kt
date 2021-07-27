@@ -59,5 +59,17 @@ internal class StockItemsTest : BehaviorSpec({
                 stockItems[2].quantity shouldBe expectedQuantity
             }
         }
+
+        `when`("Updating a stockItem that not exists") {
+            val element = thirdElement.copy(name = "Bla")
+
+            stockItems.update(element)
+
+            then("It should not update that item") {
+                val stockItem = stockItems[2]
+                stockItem.name shouldBe thirdElement.name
+                stockItem.quantity shouldBe thirdElement.quantity
+            }
+        }
     }
 })
