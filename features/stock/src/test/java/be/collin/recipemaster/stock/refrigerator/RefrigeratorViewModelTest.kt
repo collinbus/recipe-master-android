@@ -3,7 +3,7 @@ package be.collin.recipemaster.stock.refrigerator
 import androidx.lifecycle.Observer
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
-import be.collin.recipemaster.stock.StockItemRepository
+import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
 import be.collin.recipemaster.stock.StockItems
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -26,7 +26,7 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
         )
 
         val repository: StockItemRepository = mockk {
-            every { getStockItems() } returns stockItems
+            coEvery { getStockItems() } returns stockItems
         }
 
         val viewModel = RefrigeratorViewModelImpl(repository)
