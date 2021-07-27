@@ -1,6 +1,5 @@
 package be.collin.recipemaster.stock.refrigerator
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
@@ -10,30 +9,18 @@ import be.collin.recipemaster.stock.StockItems
 
 class RefrigeratorViewModelImpl : RefrigeratorViewModel() {
 
-    private val initialState = liveData {
-        val firstName = "Tomato"
-        val firstQuantity = 2
-        val secondName = "Potato"
-        val secondQuantity = 3
-        val thirdName = "Milk 1L"
-        val thirdQuantity = 1
-        emit(
-            UIState.Initialized(
-                StockItems(
-                    listOf(
-                        StockItem(firstName, Quantity(firstQuantity)),
-                        StockItem(secondName, Quantity(secondQuantity)),
-                        StockItem(thirdName, Quantity(thirdQuantity)),
-                    )
-                )
-            ) as UIState
+    private val stockItems = StockItems(
+        listOf(
+            StockItem("Tomato", Quantity(2)),
+            StockItem("Potato", Quantity(3)),
+            StockItem("Milk 1L", Quantity(1)),
         )
-    }
+    )
 
     private val updateLiveData = MutableLiveData<UIState>()
 
     override val uiState = MediatorLiveData<UIState>().apply {
-        addSource(initialState) { value = it }
+        addSource(liveData { emit(UIState.Initialized(stockItems)) }) { value = it }
         addSource(updateLiveData) { value = it }
     }
 
