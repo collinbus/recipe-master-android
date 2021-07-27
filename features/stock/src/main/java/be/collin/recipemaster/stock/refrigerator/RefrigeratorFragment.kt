@@ -31,6 +31,11 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.saveStockItems()
+    }
+
     private fun initializeAdapter(refrigerator: RecyclerView, stockItems: StockItems) {
         refrigerator.adapter =
             RefrigeratorAdapter(stockItems, object : StockItemChangedListener {

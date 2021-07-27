@@ -13,6 +13,7 @@ import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -52,7 +53,7 @@ class RefrigeratorDaoTest {
     }
 
     @Test
-    fun shouldGetCorrectStockItems() {
+    fun shouldGetCorrectStockItems() = runBlocking {
         val refrigeratorStockItems = dao.getRefrigeratorStockItems()
 
         refrigeratorStockItems shouldContain StockItemEntity("id1","name1", 5, 1)
@@ -60,7 +61,7 @@ class RefrigeratorDaoTest {
     }
 
     @Test
-    fun shouldUpdateStockItemsCorrectly() {
+    fun shouldUpdateStockItemsCorrectly() = runBlocking {
         dao.addRefrigeratorStockItem(StockItemEntity("id1","another name", 6, 1))
 
         val refrigeratorStockItems = dao.getRefrigeratorStockItems()

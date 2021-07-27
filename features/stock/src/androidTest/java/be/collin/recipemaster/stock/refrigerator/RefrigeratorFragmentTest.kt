@@ -94,7 +94,7 @@ class RefrigeratorFragmentTest {
                 RefrigeratorViewModel.UIState.Initialized(
                     StockItems(
                         listOf(
-                            StockItem(name = firstName,  quantity = Quantity(firstQuantity)),
+                            StockItem(name = firstName, quantity = Quantity(firstQuantity)),
                         )
                     )
                 ) as RefrigeratorViewModel.UIState
@@ -139,6 +139,7 @@ class RefrigeratorFragmentTest {
                         }
 
                         override fun changeName(newName: String, stockItem: StockItem) {}
+                        override fun saveStockItems() {}
 
                         override val uiState: LiveData<UIState>
                             get() = this.uiStateMediatorLiveData

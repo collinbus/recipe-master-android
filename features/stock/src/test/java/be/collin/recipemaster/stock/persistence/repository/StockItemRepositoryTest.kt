@@ -7,10 +7,7 @@ import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 
 internal class StockItemRepositoryTest : StringSpec({
     "should return StockItems when getRefrigeratorStockItems is called" {
@@ -22,7 +19,7 @@ internal class StockItemRepositoryTest : StringSpec({
         val name2 = "name2"
         val quantity2 = 10
         val refrigeratorDao: RefrigeratorDao = mockk {
-            every { getRefrigeratorStockItems() } returns listOf(
+            coEvery { getRefrigeratorStockItems() } returns listOf(
                 StockItemEntity(id1, name1, quantity1, stockItemType),
                 StockItemEntity(id2, name2, quantity2, stockItemType),
             )
@@ -48,6 +45,6 @@ internal class StockItemRepositoryTest : StringSpec({
 
         repository.insertRefrigeratorStockItems(StockItems(listOf(StockItem(id, name, quantity))))
 
-        verify { refrigeratorDao.addRefrigeratorStockItem(StockItemEntity(id, name, quantity.value, 1)) }
+        coVerify { refrigeratorDao.addRefrigeratorStockItem(StockItemEntity(id, name, quantity.value, 1)) }
     }
 })

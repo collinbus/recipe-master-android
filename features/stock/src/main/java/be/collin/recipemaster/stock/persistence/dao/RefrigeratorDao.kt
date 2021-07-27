@@ -9,8 +9,8 @@ import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 @Dao
 interface RefrigeratorDao {
     @Query("SELECT * FROM StockItem WHERE stockItemType = 1")
-    fun getRefrigeratorStockItems(): List<StockItemEntity>
+    suspend fun getRefrigeratorStockItems(): List<StockItemEntity>
 
     @Insert(entity = StockItemEntity::class, onConflict = OnConflictStrategy.REPLACE)
-    fun addRefrigeratorStockItem(vararg stockItemEntity: StockItemEntity)
+    suspend fun addRefrigeratorStockItem(vararg stockItemEntity: StockItemEntity)
 }

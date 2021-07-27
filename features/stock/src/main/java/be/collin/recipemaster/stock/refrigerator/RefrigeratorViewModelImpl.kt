@@ -3,9 +3,11 @@ package be.collin.recipemaster.stock.refrigerator
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
 import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
+import kotlinx.coroutines.launch
 
 class RefrigeratorViewModelImpl(
     private val repository: StockItemRepository
@@ -17,7 +19,7 @@ class RefrigeratorViewModelImpl(
 
     override val uiState = MediatorLiveData<UIState>().apply {
         addSource(liveData {
-            stockItems = repository.getStockItems()
+            stockItems = repository.getRefrigeratorStockItems()
             emit(UIState.Initialized(stockItems))
         }) { value = it }
         addSource(updateLiveData) { value = it }
@@ -36,6 +38,12 @@ class RefrigeratorViewModelImpl(
     override fun changeName(newName: String, stockItem: StockItem) {
         if (stockItem.name != newName) {
             stockItem.name = newName
+        }
+    }
+
+    override fun saveStockItems() {
+        viewModelScope.launch {
+            repository.insertRefrigeratorStockItems(stockItems)
         }
     }
 }

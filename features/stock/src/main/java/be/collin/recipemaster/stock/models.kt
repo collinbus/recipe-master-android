@@ -13,6 +13,8 @@ data class StockItems(private val stockItems: List<StockItem>) {
     }
 
     fun indexOf(stockItem: StockItem): Int = stockItems.indexOf(stockItem)
+
+    fun forEach(action: (StockItem) -> Unit) = stockItems.forEach(action)
 }
 
 data class StockItem(

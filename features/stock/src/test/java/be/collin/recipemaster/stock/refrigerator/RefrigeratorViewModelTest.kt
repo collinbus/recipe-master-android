@@ -26,7 +26,7 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
         )
 
         val repository: StockItemRepository = mockk {
-            coEvery { getStockItems() } returns stockItems
+            coEvery { getRefrigeratorStockItems() } returns stockItems
         }
 
         val viewModel = RefrigeratorViewModelImpl(repository)
@@ -87,6 +87,17 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
 
             then("it should update it") {
                 updatedStockItem.name shouldBe updatedName
+            }
+        }
+
+        `when`("saveStockItems is called") {
+            val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
+            viewModel.uiState.observeForever(observer)
+
+            viewModel.saveStockItems()
+
+            then("it should call saveItems on the repository") {
+                coVerify { repository.insertRefrigeratorStockItems(stockItems) }
             }
         }
     }

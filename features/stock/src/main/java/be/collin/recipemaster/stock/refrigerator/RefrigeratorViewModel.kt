@@ -9,6 +9,7 @@ abstract class RefrigeratorViewModel : ViewModel() {
     abstract fun increaseQuantityOf(stockItem: StockItem)
     abstract fun decreaseQuantityOf(stockItem: StockItem)
     abstract fun changeName(newName: String, stockItem: StockItem)
+    abstract fun saveStockItems()
 
     abstract val uiState: LiveData<UIState>
 

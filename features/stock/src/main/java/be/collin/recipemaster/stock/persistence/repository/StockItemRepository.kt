@@ -17,16 +17,20 @@ class StockItemRepository(private val refrigeratorDao: RefrigeratorDao) {
         }
     )
 
-    fun insertRefrigeratorStockItems(stockItems: StockItems) {
-        stockItems.forEach {
-            refrigeratorDao.addRefrigeratorStockItem(
-                StockItemEntity(
-                    it.id,
-                    it.name,
-                    it.quantity.value,
-                    REFRIGERATOR_STOCK_ITEM_TYPE
+    suspend fun insertRefrigeratorStockItems(stockItems: StockItems) {
+        withContext(Dispatchers.IO) {
+            val refrigeratorItems = mutableListOf<StockItemEntity>()
+            stockItems.forEach {
+                refrigeratorItems.add(
+                    StockItemEntity(
+                        it.id,
+                        it.name,
+                        it.quantity.value,
+                        REFRIGERATOR_STOCK_ITEM_TYPE
+                    )
                 )
-            )
+            }
+            refrigeratorDao.addRefrigeratorStockItem(*refrigeratorItems.toTypedArray())
         }
     }
 
