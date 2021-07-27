@@ -35,6 +35,11 @@ class RefrigeratorAdapter(
         notifyItemChanged(stockItems.indexOf(stockItem))
     }
 
+    fun add(stockItem: StockItem) {
+        stockItems.add(stockItem)
+        notifyItemChanged(stockItems.indexOf(stockItem))
+    }
+
     class StockItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.stockItemText)
         private val quantity = itemView.findViewById<TextView>(R.id.quantityText)

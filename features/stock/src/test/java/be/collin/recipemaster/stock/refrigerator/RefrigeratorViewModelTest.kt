@@ -116,7 +116,7 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
 
             then("it should update the uistate") {
                 coVerifySequence {
-                    observer.onChanged(ofType(UIState.Initialized::class))
+                    observer.onChanged(any())
                     observer.onChanged(ofType(UIState.Added::class))
                 }
             }

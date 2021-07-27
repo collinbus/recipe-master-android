@@ -31,6 +31,7 @@ import java.lang.Thread.sleep
 class RefrigeratorFragmentTest {
 
     private class RefrigeratorScreen : Screen<RefrigeratorScreen>() {
+        val addBtn = KButton { withId(R.id.addBtn)}
         val refrigerator =
             KRecyclerView({ withId(R.id.stockItemRecyclerView) }, { itemType(::RefrigeratorItem) })
 
@@ -116,6 +117,35 @@ class RefrigeratorFragmentTest {
         }
     }
 
+    @Test
+    fun shouldAddItemWhenAddButtonIsClicked() {
+        val firstName = "Tomato"
+        val firstQuantity = 2
+
+        launchFragmentInContainerWith(liveData {
+            emit(
+                RefrigeratorViewModel.UIState.Initialized(
+                    StockItems(
+                        mutableListOf(
+                            StockItem(name = firstName, quantity = Quantity(firstQuantity)),
+                        )
+                    )
+                ) as RefrigeratorViewModel.UIState
+            )
+        })
+
+        onScreen<RefrigeratorScreen> {
+            addBtn.click()
+
+            refrigerator {
+                childAt<RefrigeratorScreen.RefrigeratorItem>(1) {
+                    title.hasText("New item")
+                    quantity.hasText("1")
+                }
+            }
+        }
+    }
+
     private fun launchFragmentInContainerWith(
         fridgeItemsLiveData: LiveData<RefrigeratorViewModel.UIState> = liveData { }
     ) {
@@ -140,7 +170,9 @@ class RefrigeratorFragmentTest {
 
                         override fun changeName(newName: String, stockItem: StockItem) {}
                         override fun saveStockItems() {}
-                        override fun addStockItem() {}
+                        override fun addStockItem() {
+                            uiStateMediatorLiveData.postValue(UIState.Added(StockItem(name = "New item", quantity = Quantity(1))))
+                        }
 
                         override val uiState: LiveData<UIState>
                             get() = this.uiStateMediatorLiveData

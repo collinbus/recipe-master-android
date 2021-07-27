@@ -8,6 +8,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import be.collin.recipemaster.stock.R
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
 
@@ -15,7 +16,7 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val addBtn = view.findViewById<FloatingActionButton>(R.id.addBtn)
         val refrigerator: RecyclerView = view.findViewById(R.id.stockItemRecyclerView)
 
         viewModel.uiState.observe(viewLifecycleOwner) {
@@ -27,10 +28,13 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
                     (refrigerator.adapter as RefrigeratorAdapter).update(it.stockItem)
                 }
                 is RefrigeratorViewModel.UIState.Added -> {
-                    viewModel.addStockItem()
+                    (refrigerator.adapter as RefrigeratorAdapter).add(it.stockItem)
                 }
             }
+        }
 
+        addBtn.setOnClickListener {
+            viewModel.addStockItem()
         }
     }
 

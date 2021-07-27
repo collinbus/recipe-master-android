@@ -14,14 +14,14 @@ class RefrigeratorViewModelImpl(
     private val repository: StockItemRepository
 ) : RefrigeratorViewModel() {
 
-    private lateinit var stockItems: StockItems
+    private var stockItems: StockItems? = null
 
     private val updateLiveData = MutableLiveData<UIState>()
 
     override val uiState = MediatorLiveData<UIState>().apply {
         addSource(liveData {
             stockItems = repository.getRefrigeratorStockItems()
-            emit(UIState.Initialized(stockItems))
+            emit(UIState.Initialized(stockItems!!))
         }) { value = it }
         addSource(updateLiveData) { value = it }
     }
@@ -44,13 +44,14 @@ class RefrigeratorViewModelImpl(
 
     override fun saveStockItems() {
         viewModelScope.launch {
-            repository.insertRefrigeratorStockItems(stockItems)
+            stockItems?.let {
+                repository.insertRefrigeratorStockItems(it)
+            }
         }
     }
 
     override fun addStockItem() {
         val stockItem = StockItem(name = "New item", quantity = Quantity(1))
-        stockItems.add(stockItem)
         viewModelScope.launch {
             repository.insertRefrigeratorStockItems(StockItems(mutableListOf(stockItem)))
         }
