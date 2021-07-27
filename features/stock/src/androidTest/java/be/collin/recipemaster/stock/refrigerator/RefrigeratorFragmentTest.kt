@@ -5,6 +5,10 @@ import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.liveData
+import androidx.test.espresso.action.GeneralLocation
+import androidx.test.espresso.action.GeneralSwipeAction
+import androidx.test.espresso.action.Press
+import androidx.test.espresso.action.Swipe
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.R
@@ -17,6 +21,7 @@ import com.agoda.kakao.screen.Screen
 import com.agoda.kakao.screen.Screen.Companion.onScreen
 import com.agoda.kakao.text.KButton
 import com.agoda.kakao.text.KTextView
+import io.kotest.matchers.shouldBe
 import org.hamcrest.Matcher
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -146,6 +151,34 @@ class RefrigeratorFragmentTest {
         }
     }
 
+    @Test
+    fun shouldRemoveItemWhenItIsSwipedToTheLeft() {
+        val firstName = "Tomato"
+        val firstQuantity = 2
+
+        launchFragmentInContainerWith(liveData {
+            emit(
+                RefrigeratorViewModel.UIState.Initialized(
+                    StockItems(
+                        mutableListOf(
+                            StockItem(name = firstName, quantity = Quantity(firstQuantity)),
+                        )
+                    )
+                ) as RefrigeratorViewModel.UIState
+            )
+        })
+
+        onScreen<RefrigeratorScreen> {
+            refrigerator {
+                childAt<RefrigeratorScreen.RefrigeratorItem>(0) {
+                    view.perform(GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER_RIGHT,GeneralLocation.CENTER_LEFT, Press.FINGER))
+                }
+            }
+
+            refrigerator.getSize() shouldBe 0
+        }
+    }
+
     private fun launchFragmentInContainerWith(
         fridgeItemsLiveData: LiveData<RefrigeratorViewModel.UIState> = liveData { }
     ) {
@@ -172,6 +205,10 @@ class RefrigeratorFragmentTest {
                         override fun saveStockItems() {}
                         override fun addStockItem() {
                             uiStateMediatorLiveData.postValue(UIState.Added(StockItem(name = "New item", quantity = Quantity(1))))
+                        }
+
+                        override fun removeItemAt(position: Int) {
+                            uiStateMediatorLiveData.postValue(UIState.Removed(0))
                         }
 
                         override val uiState: LiveData<UIState>

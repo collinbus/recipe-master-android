@@ -40,6 +40,11 @@ class RefrigeratorAdapter(
         notifyItemChanged(stockItems.indexOf(stockItem))
     }
 
+    fun remove(position: Int) {
+        stockItems.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     class StockItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name = itemView.findViewById<TextView>(R.id.stockItemText)
         private val quantity = itemView.findViewById<TextView>(R.id.quantityText)

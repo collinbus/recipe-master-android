@@ -19,6 +19,10 @@ data class StockItems(private val stockItems: MutableList<StockItem>) {
     fun add(stockItem: StockItem) {
         stockItems.add(stockItem)
     }
+
+    fun removeAt(position: Int) {
+        stockItems.removeAt(position)
+    }
 }
 
 data class StockItem(

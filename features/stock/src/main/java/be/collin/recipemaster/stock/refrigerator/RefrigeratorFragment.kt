@@ -3,6 +3,7 @@ package be.collin.recipemaster.stock.refrigerator
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import be.collin.recipemaster.stock.R
@@ -30,12 +31,32 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
                 is RefrigeratorViewModel.UIState.Added -> {
                     (refrigerator.adapter as RefrigeratorAdapter).add(it.stockItem)
                 }
+                is RefrigeratorViewModel.UIState.Removed -> {
+                    (refrigerator.adapter as RefrigeratorAdapter).remove(it.position)
+                }
             }
         }
 
         addBtn.setOnClickListener {
             viewModel.addStockItem()
         }
+
+        setupDeleteGesture(refrigerator)
+    }
+
+    private fun setupDeleteGesture(refrigerator: RecyclerView) {
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                viewModel.removeItemAt(viewHolder.adapterPosition)
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(refrigerator)
     }
 
     override fun onStop() {
