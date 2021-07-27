@@ -1,7 +1,6 @@
 package be.collin.recipemaster.stock
 
 import be.collin.recipemaster.stockItemArb
-import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.property.arbitrary.next
@@ -47,6 +46,17 @@ internal class StockItemsTest : BehaviorSpec({
 
             then("it should return -1") {
                 index shouldBe -1
+            }
+        }
+
+        `when`("Updating a stockItem that exists") {
+            val expectedQuantity = Quantity(5)
+            val element = thirdElement.copy(quantity = expectedQuantity)
+
+            stockItems.update(element)
+
+            then("It should update that item") {
+                stockItems[2].quantity shouldBe expectedQuantity
             }
         }
     }
