@@ -12,6 +12,7 @@ import be.collin.recipemaster.stock.persistence.AppDatabase
 import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import io.kotest.matchers.collections.shouldContain
+import io.kotest.matchers.shouldBe
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -56,6 +57,16 @@ class RefrigeratorDaoTest {
 
         refrigeratorStockItems shouldContain StockItemEntity("id1","name1", 5, 1)
         refrigeratorStockItems shouldContain StockItemEntity("id2","name2", 10, 1)
+    }
+
+    @Test
+    fun shouldUpdateStockItemsCorrectly() {
+        dao.addRefrigeratorStockItem(StockItemEntity("id1","another name", 6, 1))
+
+        val refrigeratorStockItems = dao.getRefrigeratorStockItems()
+
+        refrigeratorStockItems shouldContain StockItemEntity("id1","another name", 6, 1)
+        refrigeratorStockItems.size shouldBe 2
     }
 
     @After
