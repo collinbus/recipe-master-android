@@ -3,36 +3,41 @@ package be.collin.recipemaster.stock.refrigerator
 import androidx.lifecycle.Observer
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
+import be.collin.recipemaster.stock.StockItemRepository
 import be.collin.recipemaster.stock.StockItems
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.spyk
-import io.mockk.verify
-import io.mockk.verifySequence
+import io.mockk.*
 
 internal class RefrigeratorViewModelTest: BehaviorSpec({
     given("a RefrigeratorViewModel") {
-        val viewModel = RefrigeratorViewModelImpl()
+        val firstName = "Tomato"
+        val firstQuantity = 2
+        val secondName = "Potato"
+        val secondQuantity = 3
+        val thirdName = "Milk 1L"
+        val thirdQuantity = 1
+        val stockItems = StockItems(
+            listOf(
+                StockItem(name = firstName, quantity = Quantity(firstQuantity)),
+                StockItem(name = secondName, quantity = Quantity(secondQuantity)),
+                StockItem(name = thirdName, quantity = Quantity(thirdQuantity)),
+            )
+        )
+
+        val repository: StockItemRepository = mockk {
+            every { getStockItems() } returns stockItems
+        }
+
+        val viewModel = RefrigeratorViewModelImpl(repository)
 
         `when`("the viewModel is created") {
             val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
             viewModel.uiState.observeForever(observer)
 
             then("it emit the correct ui state") {
-                val firstName = "Tomato"
-                val firstQuantity = 2
-                val secondName = "Potato"
-                val secondQuantity = 3
-                val thirdName = "Milk 1L"
-                val thirdQuantity = 1
                 val expectedUIState = RefrigeratorViewModel.UIState.Initialized(
-                    StockItems(
-                        listOf(
-                            StockItem(firstName, Quantity(firstQuantity)),
-                            StockItem(secondName, Quantity(secondQuantity)),
-                            StockItem(thirdName, Quantity(thirdQuantity)),
-                        )
-                    )
+                    stockItems
                 )
                 verify { observer.onChanged(expectedUIState) }
             }
@@ -40,7 +45,7 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
 
         `when`("the quantity of an item is increased") {
             val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
-            val updatedStockItem = StockItem("Tomato", Quantity(2))
+            val updatedStockItem = StockItem(name = "Tomato", quantity = Quantity(2))
             val expectedQuantity = Quantity(3)
             viewModel.uiState.observeForever(observer)
 
@@ -57,7 +62,7 @@ internal class RefrigeratorViewModelTest: BehaviorSpec({
 
         `when`("the quantity of an item is decreased") {
             val observer: Observer<RefrigeratorViewModel.UIState> = spyk()
-            val updatedStockItem = StockItem("Tomato", Quantity(2))
+            val updatedStockItem = StockItem(name = "Tomato", quantity = Quantity(2))
             val expectedQuantity = Quantity(1)
             viewModel.uiState.observeForever(observer)
 

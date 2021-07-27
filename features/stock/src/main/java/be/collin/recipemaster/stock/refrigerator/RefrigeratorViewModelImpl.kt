@@ -5,17 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
+import be.collin.recipemaster.stock.StockItemRepository
 import be.collin.recipemaster.stock.StockItems
 
-class RefrigeratorViewModelImpl : RefrigeratorViewModel() {
+class RefrigeratorViewModelImpl(
+    private val repository : StockItemRepository
+) : RefrigeratorViewModel() {
 
-    private val stockItems = StockItems(
-        listOf(
-            StockItem("Tomato", Quantity(2)),
-            StockItem("Potato", Quantity(3)),
-            StockItem("Milk 1L", Quantity(1)),
-        )
-    )
+    private val stockItems = repository.getStockItems()
 
     private val updateLiveData = MutableLiveData<UIState>()
 

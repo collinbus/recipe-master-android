@@ -42,7 +42,7 @@ internal class StockItemsTest : BehaviorSpec({
         }
 
         `when`("The index of an unExisting element") {
-            val index = stockItems.indexOf(StockItem("bla", Quantity(0)))
+            val index = stockItems.indexOf(StockItem(name = "bla", quantity = Quantity(0)))
 
             then("it should return -1") {
                 index shouldBe -1
@@ -61,7 +61,7 @@ internal class StockItemsTest : BehaviorSpec({
         }
 
         `when`("Updating a stockItem that not exists") {
-            val element = thirdElement.copy(name = "Bla")
+            val element = StockItem(name = thirdElement.name, quantity = thirdElement.quantity)
 
             stockItems.update(element)
 

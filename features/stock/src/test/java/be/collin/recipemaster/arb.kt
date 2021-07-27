@@ -9,7 +9,7 @@ import io.kotest.property.arbitrary.next
 import io.kotest.property.arbitrary.string
 
 val stockItemArb = arbitrary {
-    StockItem(Arb.string().next(), quantityArb.next())
+    StockItem(name = Arb.string().next(), quantity = quantityArb.next())
 }
 
 val quantityArb = arbitrary {
