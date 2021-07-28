@@ -3,15 +3,15 @@ package be.collin.recipemaster.stock.persistence.repository
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
-import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
+import be.collin.recipemaster.stock.persistence.dao.StockItemDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class StockItemRepository(private val refrigeratorDao: RefrigeratorDao) {
+class StockItemRepository<T:StockItemDao>(private val stockItemDao: T) {
     suspend fun getRefrigeratorStockItems(): StockItems = StockItems(
         withContext(Dispatchers.IO) {
-            refrigeratorDao.getStockItems().map {
+            stockItemDao.getStockItems().map {
                 StockItem(it.id, it.name, Quantity(it.quantity))
             }.toMutableList()
         }
@@ -30,13 +30,13 @@ class StockItemRepository(private val refrigeratorDao: RefrigeratorDao) {
                     )
                 )
             }
-            refrigeratorDao.addStockItems(*refrigeratorItems.toTypedArray())
+            stockItemDao.addStockItems(*refrigeratorItems.toTypedArray())
         }
     }
 
     suspend fun removeRefrigeratorStockItem(stockItem: StockItem) {
         withContext(Dispatchers.IO) {
-            refrigeratorDao.removeStockItem(
+            stockItemDao.removeStockItem(
                 StockItemEntity(
                     stockItem.id, stockItem.name, stockItem.quantity.value,
                     REFRIGERATOR_STOCK_ITEM_TYPE

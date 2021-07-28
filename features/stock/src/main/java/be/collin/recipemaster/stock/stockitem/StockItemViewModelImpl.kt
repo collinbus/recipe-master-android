@@ -11,7 +11,7 @@ import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
 import kotlinx.coroutines.launch
 
 class StockItemViewModelImpl(
-    private val repository: StockItemRepository
+    private val repository: StockItemRepository<*>
 ) : StockItemViewModel() {
 
     private var stockItems: StockItems? = null

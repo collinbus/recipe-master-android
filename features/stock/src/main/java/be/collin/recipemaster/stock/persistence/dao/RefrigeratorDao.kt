@@ -5,7 +5,7 @@ import androidx.room.Query
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 
 @Dao
-interface RefrigeratorDao : StockItemDao {
+abstract class RefrigeratorDao : StockItemDao() {
     @Query("SELECT * FROM StockItem WHERE stockItemType = 1")
-    override suspend fun getStockItems(): List<StockItemEntity>
+    abstract override suspend fun getStockItems(): List<StockItemEntity>
 }

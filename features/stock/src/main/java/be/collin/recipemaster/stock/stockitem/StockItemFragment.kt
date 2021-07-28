@@ -1,8 +1,10 @@
 package be.collin.recipemaster.stock.stockitem
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -10,10 +12,13 @@ import be.collin.recipemaster.stock.R
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import org.koin.core.parameter.parametersOf
 
 class StockItemFragment : Fragment(R.layout.fragment_stock_item_list) {
 
-    private val viewModel: StockItemViewModel by viewModel()
+    private val viewModel: StockItemViewModel by viewModel {
+        parametersOf(requireArguments().getString(DAO_PARAM_NAME))
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,5 +84,9 @@ class StockItemFragment : Fragment(R.layout.fragment_stock_item_list) {
                     viewModel.decreaseQuantityOf(stockItem)
                 }
             })
+    }
+
+    companion object {
+        const val DAO_PARAM_NAME = "daoName"
     }
 }

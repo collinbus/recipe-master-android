@@ -11,11 +11,11 @@
         android:id="@+id/fragment_refrigerator"
         android:name="be.collin.recipemaster.stock.refrigerator.RefrigeratorFragment"
         android:label="@string/title_refrigerator"
-        tools:layout="@layout/refrigerator_fragment" />
+        tools:layout="@layout/fragment_stock_item_list" />
 
     <fragment
         android:id="@+id/fragment_shopping_list"
         android:name="be.collin.recipemaster.stock.shopping.ShoppingListFragment"
         android:label="@string/title_shopping"
-        tools:layout="@layout/shopping_list_fragment" />
+        tools:layout="@layout/fragment_stock_item_list" />
 </navigation>

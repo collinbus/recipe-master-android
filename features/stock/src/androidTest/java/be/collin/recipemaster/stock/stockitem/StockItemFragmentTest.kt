@@ -1,5 +1,6 @@
 package be.collin.recipemaster.stock.stockitem
 
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.lifecycle.LiveData
@@ -14,6 +15,8 @@ import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.R
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
+import be.collin.recipemaster.stock.refrigerator.RefrigeratorFragment.Companion.REFRIGERATOR_PARAM
+import be.collin.recipemaster.stock.stockitem.StockItemFragment.Companion.DAO_PARAM_NAME
 import com.agoda.kakao.edit.KEditText
 import com.agoda.kakao.recycler.KRecyclerItem
 import com.agoda.kakao.recycler.KRecyclerView
@@ -28,6 +31,7 @@ import org.junit.runner.RunWith
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import java.lang.Thread.sleep
 
@@ -185,7 +189,7 @@ class StockItemFragmentTest {
         stopKoin()
         startKoin {
             modules(module {
-                viewModel<StockItemViewModel> {
+                viewModel<StockItemViewModel> { _ ->
                     object : StockItemViewModel() {
                         val uiStateMediatorLiveData = MediatorLiveData<UIState>().apply {
                             addSource(fridgeItemsLiveData) { value = it }
@@ -217,7 +221,9 @@ class StockItemFragmentTest {
                 }
             })
         }
-        launchFragmentInContainer(themeResId = R.style.Theme_MaterialComponents_DayNight_DarkActionBar) {
+        launchFragmentInContainer(themeResId = R.style.Theme_MaterialComponents_DayNight_DarkActionBar, fragmentArgs = Bundle().apply {
+            putString(DAO_PARAM_NAME, REFRIGERATOR_PARAM)
+        }) {
             StockItemFragment()
         }
     }

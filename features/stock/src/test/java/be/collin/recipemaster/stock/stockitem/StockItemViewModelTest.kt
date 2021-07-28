@@ -5,6 +5,7 @@ import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
 import be.collin.recipemaster.stock.StockItems
+import be.collin.recipemaster.stock.persistence.dao.StockItemDao
 import be.collin.recipemaster.stock.stockitem.StockItemViewModel.UIState
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
@@ -29,7 +30,7 @@ internal class StockItemViewModelTest : BehaviorSpec({
             )
         )
 
-        val repository: StockItemRepository = mockk {
+        val repository: StockItemRepository<StockItemDao> = mockk {
             coEvery { getRefrigeratorStockItems() } returns stockItems
         }
 
