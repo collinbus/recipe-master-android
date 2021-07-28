@@ -1,11 +1,11 @@
-package be.collin.recipemaster.stock.refrigerator
+package be.collin.recipemaster.stock.stockitem
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
 
-abstract class RefrigeratorViewModel : ViewModel() {
+abstract class StockItemViewModel : ViewModel() {
     abstract fun increaseQuantityOf(stockItem: StockItem)
     abstract fun decreaseQuantityOf(stockItem: StockItem)
     abstract fun changeName(newName: String, stockItem: StockItem)

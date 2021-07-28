@@ -1,4 +1,4 @@
-package be.collin.recipemaster.stock.refrigerator.persistence
+package be.collin.recipemaster.stock.stockitem.persistence
 
 import android.content.ContentValues
 import android.content.Context

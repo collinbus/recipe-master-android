@@ -1,4 +1,4 @@
-package be.collin.recipemaster.stock.refrigerator
+package be.collin.recipemaster.stock.stockitem
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import be.collin.recipemaster.stock.R
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
-import be.collin.recipemaster.stock.refrigerator.RefrigeratorAdapter.StockItemViewHolder
+import be.collin.recipemaster.stock.stockitem.StockItemAdapter.StockItemViewHolder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class RefrigeratorAdapter(
+class StockItemAdapter(
     private val stockItems: StockItems,
     private val stockItemChangedListener: StockItemChangedListener
 ) : RecyclerView.Adapter<StockItemViewHolder>() {

@@ -1,4 +1,4 @@
-package be.collin.recipemaster.stock.refrigerator
+package be.collin.recipemaster.stock.stockitem
 
 import be.collin.recipemaster.stock.StockItem
 

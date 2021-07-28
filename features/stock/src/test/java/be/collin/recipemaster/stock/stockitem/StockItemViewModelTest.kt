@@ -1,16 +1,16 @@
-package be.collin.recipemaster.stock.refrigerator
+package be.collin.recipemaster.stock.stockitem
 
 import androidx.lifecycle.Observer
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
 import be.collin.recipemaster.stock.StockItems
-import be.collin.recipemaster.stock.refrigerator.RefrigeratorViewModel.UIState
+import be.collin.recipemaster.stock.stockitem.StockItemViewModel.UIState
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.*
 
-internal class RefrigeratorViewModelTest : BehaviorSpec({
+internal class StockItemViewModelTest : BehaviorSpec({
     given("a RefrigeratorViewModel") {
         val firstName = "Tomato"
         val firstQuantity = 2
@@ -33,7 +33,7 @@ internal class RefrigeratorViewModelTest : BehaviorSpec({
             coEvery { getRefrigeratorStockItems() } returns stockItems
         }
 
-        val viewModel = RefrigeratorViewModelImpl(repository)
+        val viewModel = StockItemViewModelImpl(repository)
 
         `when`("the viewModel is created") {
             val observer: Observer<UIState> = spyk()

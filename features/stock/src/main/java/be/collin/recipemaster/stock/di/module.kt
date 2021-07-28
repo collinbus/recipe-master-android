@@ -2,16 +2,15 @@ package be.collin.recipemaster.stock.di
 
 import android.app.Application
 import be.collin.recipemaster.stock.persistence.AppDatabase
-import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
 import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
-import be.collin.recipemaster.stock.refrigerator.RefrigeratorViewModel
-import be.collin.recipemaster.stock.refrigerator.RefrigeratorViewModelImpl
+import be.collin.recipemaster.stock.stockitem.StockItemViewModel
+import be.collin.recipemaster.stock.stockitem.StockItemViewModelImpl
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val stockModule = module {
-    viewModel<RefrigeratorViewModel> { RefrigeratorViewModelImpl(get()) }
+    viewModel<StockItemViewModel> { StockItemViewModelImpl(get()) }
     single { StockItemRepository(get()) }
     single { appDatabase(androidApplication()) }
     single { refrigeratorDao(get()) }

@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment_refrigerator"
-        android:name="be.collin.recipemaster.stock.refrigerator.RefrigeratorFragment"
+        android:name="be.collin.recipemaster.stock.stockitem.StockItemFragment"
         android:label="@string/title_refrigerator"
         tools:layout="@layout/fragment_stock_item_list" />
 

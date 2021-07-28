@@ -1,4 +1,4 @@
-package be.collin.recipemaster.stock.refrigerator
+package be.collin.recipemaster.stock.stockitem
 
 import android.os.Bundle
 import android.view.View
@@ -11,9 +11,9 @@ import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
+class StockItemFragment : Fragment(R.layout.fragment_stock_item_list) {
 
-    private val viewModel: RefrigeratorViewModel by viewModel()
+    private val viewModel: StockItemViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -22,17 +22,17 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
 
         viewModel.uiState.observe(viewLifecycleOwner) {
             when(it) {
-                is RefrigeratorViewModel.UIState.Initialized -> {
+                is StockItemViewModel.UIState.Initialized -> {
                     initializeAdapter(refrigerator, it.stockItems)
                 }
-                is RefrigeratorViewModel.UIState.Updated -> {
-                    (refrigerator.adapter as RefrigeratorAdapter).update(it.stockItem)
+                is StockItemViewModel.UIState.Updated -> {
+                    (refrigerator.adapter as StockItemAdapter).update(it.stockItem)
                 }
-                is RefrigeratorViewModel.UIState.Added -> {
-                    (refrigerator.adapter as RefrigeratorAdapter).add(it.stockItem)
+                is StockItemViewModel.UIState.Added -> {
+                    (refrigerator.adapter as StockItemAdapter).add(it.stockItem)
                 }
-                is RefrigeratorViewModel.UIState.Removed -> {
-                    (refrigerator.adapter as RefrigeratorAdapter).remove(it.position)
+                is StockItemViewModel.UIState.Removed -> {
+                    (refrigerator.adapter as StockItemAdapter).remove(it.position)
                 }
             }
         }
@@ -66,7 +66,7 @@ class RefrigeratorFragment : Fragment(R.layout.fragment_stock_item_list) {
 
     private fun initializeAdapter(refrigerator: RecyclerView, stockItems: StockItems) {
         refrigerator.adapter =
-            RefrigeratorAdapter(stockItems, object : StockItemChangedListener {
+            StockItemAdapter(stockItems, object : StockItemChangedListener {
                 override fun nameChanged(newName: String, stockItem: StockItem) {
                     viewModel.changeName(newName, stockItem)
                 }

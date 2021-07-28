@@ -1,4 +1,4 @@
-package be.collin.recipemaster.stock.refrigerator
+package be.collin.recipemaster.stock.stockitem
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,9 +10,9 @@ import be.collin.recipemaster.stock.StockItems
 import be.collin.recipemaster.stock.persistence.repository.StockItemRepository
 import kotlinx.coroutines.launch
 
-class RefrigeratorViewModelImpl(
+class StockItemViewModelImpl(
     private val repository: StockItemRepository
-) : RefrigeratorViewModel() {
+) : StockItemViewModel() {
 
     private var stockItems: StockItems? = null
 

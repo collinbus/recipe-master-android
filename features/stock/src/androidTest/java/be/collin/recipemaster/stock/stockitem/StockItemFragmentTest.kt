@@ -1,4 +1,4 @@
-package be.collin.recipemaster.stock.refrigerator
+package be.collin.recipemaster.stock.stockitem
 
 import android.view.View
 import androidx.fragment.app.testing.launchFragmentInContainer
@@ -33,7 +33,7 @@ import java.lang.Thread.sleep
 
 
 @RunWith(AndroidJUnit4::class)
-class RefrigeratorFragmentTest {
+class StockItemFragmentTest {
 
     private class RefrigeratorScreen : Screen<RefrigeratorScreen>() {
         val addBtn = KButton { withId(R.id.addBtn)}
@@ -58,7 +58,7 @@ class RefrigeratorFragmentTest {
         val thirdQuantity = 1
         launchFragmentInContainerWith(liveData {
             emit(
-                RefrigeratorViewModel.UIState.Initialized(
+                StockItemViewModel.UIState.Initialized(
                     StockItems(
                         mutableListOf(
                             StockItem(name = firstName, quantity = Quantity(firstQuantity)),
@@ -66,7 +66,7 @@ class RefrigeratorFragmentTest {
                             StockItem(name = thirdName, quantity = Quantity(thirdQuantity)),
                         )
                     )
-                ) as RefrigeratorViewModel.UIState
+                ) as StockItemViewModel.UIState
             )
         })
 
@@ -97,13 +97,13 @@ class RefrigeratorFragmentTest {
 
         launchFragmentInContainerWith(liveData {
             emit(
-                RefrigeratorViewModel.UIState.Initialized(
+                StockItemViewModel.UIState.Initialized(
                     StockItems(
                         mutableListOf(
                             StockItem(name = firstName, quantity = Quantity(firstQuantity)),
                         )
                     )
-                ) as RefrigeratorViewModel.UIState
+                ) as StockItemViewModel.UIState
             )
         })
 
@@ -129,13 +129,13 @@ class RefrigeratorFragmentTest {
 
         launchFragmentInContainerWith(liveData {
             emit(
-                RefrigeratorViewModel.UIState.Initialized(
+                StockItemViewModel.UIState.Initialized(
                     StockItems(
                         mutableListOf(
                             StockItem(name = firstName, quantity = Quantity(firstQuantity)),
                         )
                     )
-                ) as RefrigeratorViewModel.UIState
+                ) as StockItemViewModel.UIState
             )
         })
 
@@ -158,13 +158,13 @@ class RefrigeratorFragmentTest {
 
         launchFragmentInContainerWith(liveData {
             emit(
-                RefrigeratorViewModel.UIState.Initialized(
+                StockItemViewModel.UIState.Initialized(
                     StockItems(
                         mutableListOf(
                             StockItem(name = firstName, quantity = Quantity(firstQuantity)),
                         )
                     )
-                ) as RefrigeratorViewModel.UIState
+                ) as StockItemViewModel.UIState
             )
         })
 
@@ -180,13 +180,13 @@ class RefrigeratorFragmentTest {
     }
 
     private fun launchFragmentInContainerWith(
-        fridgeItemsLiveData: LiveData<RefrigeratorViewModel.UIState> = liveData { }
+        fridgeItemsLiveData: LiveData<StockItemViewModel.UIState> = liveData { }
     ) {
         stopKoin()
         startKoin {
             modules(module {
-                viewModel<RefrigeratorViewModel> {
-                    object : RefrigeratorViewModel() {
+                viewModel<StockItemViewModel> {
+                    object : StockItemViewModel() {
                         val uiStateMediatorLiveData = MediatorLiveData<UIState>().apply {
                             addSource(fridgeItemsLiveData) { value = it }
                         }
@@ -218,7 +218,7 @@ class RefrigeratorFragmentTest {
             })
         }
         launchFragmentInContainer(themeResId = R.style.Theme_MaterialComponents_DayNight_DarkActionBar) {
-            RefrigeratorFragment()
+            StockItemFragment()
         }
     }
 }
