@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.recipes_graph, R.id.fragment_refrigerator, R.id.navigation_notifications))
+                R.id.recipes_graph, R.id.fragment_refrigerator, R.id.fragment_shopping_list))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.recipeOverviewFragment -> showBottomNavBar()
                 R.id.fragment_refrigerator -> showBottomNavBar()
-                R.id.navigation_notifications -> showBottomNavBar()
+                R.id.fragment_shopping_list -> showBottomNavBar()
                 else -> hideBottomBar()
             }
         }
