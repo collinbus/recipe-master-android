@@ -28,3 +28,19 @@ The application module, it uses both the recipes and stock modules. It contains 
 The recipe module is responsible of displaying the recipes.
 #### :features:stock
 The stock module is responsible of managing both the refrigerator and the shopping list.
+
+## Languages, Frameworks and libraries
+- [Kotlin](https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwjY6IT73IXyAhWRBogJHfW7CUgYABAAGgJxbg&ei=KUgBYaa4Lbay5NoPrPai6Ak&ohost=www.google.com&cid=CAESQOD2g2b4tY5ySLjpMEThga0zc_qHV8srzHZJ8QtSRmMG5RGcx8IUjlMqw1-tG5H0ANqvkeaZkQJ7kQntKQV6P0U&sig=AOD64_1FCKQJvIGZbgJV_o4qv2-2aRvKNg&q&sqi=2&adurl&ved=2ahUKEwjm8Pv63IXyAhU2GVkFHSy7CJ0Q0Qx6BAgCEAE)
+- [Android Jetpack](https://developer.android.com/jetpack#architecture-components)
+  - [Room](https://developer.android.com/jetpack/androidx/releases/room)
+  - [MVVM](https://developer.android.com/topic/libraries/architecture/viewmodel)
+  - [Navigation Component](https://developer.android.com/guide/navigation)
+- [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
+- [Kotest](https://kotest.io/)
+- [Kakao](https://github.com/agoda-com/Kakao)
+- [Espresso](https://developer.android.com/training/testing/espresso)
+- [Koin](https://insert-koin.io/)
+- [Arrow](https://arrow-kt.io/)
+- [Retrofit](https://square.github.io/retrofit/)
+- [OkHttp](https://square.github.io/okhttp/)
+- [GSON](https://github.com/google/gson)
