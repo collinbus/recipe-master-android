@@ -3,12 +3,16 @@ package be.collin.recipemaster.stock.persistence.repository
 import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
+import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
+import be.collin.recipemaster.stock.persistence.dao.ShoppingListDao
 import be.collin.recipemaster.stock.persistence.dao.StockItemDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.reflect.KClass
 
 class StockItemRepository<T:StockItemDao>(private val stockItemDao: T) {
+
     suspend fun getRefrigeratorStockItems(): StockItems = StockItems(
         withContext(Dispatchers.IO) {
             stockItemDao.getStockItems().map {
@@ -26,7 +30,7 @@ class StockItemRepository<T:StockItemDao>(private val stockItemDao: T) {
                         it.id,
                         it.name,
                         it.quantity.value,
-                        REFRIGERATOR_STOCK_ITEM_TYPE
+                        getStockItemType()
                     )
                 )
             }
@@ -39,13 +43,20 @@ class StockItemRepository<T:StockItemDao>(private val stockItemDao: T) {
             stockItemDao.removeStockItem(
                 StockItemEntity(
                     stockItem.id, stockItem.name, stockItem.quantity.value,
-                    REFRIGERATOR_STOCK_ITEM_TYPE
+                    getStockItemType()
                 )
             )
         }
     }
 
+    private fun getStockItemType(): Int {
+        if (stockItemDao is RefrigeratorDao)
+            return REFRIGERATOR_STOCK_ITEM_TYPE
+        return SHOPPING_LIST_STOCK_ITEM_TYPE
+    }
+
     companion object {
         private const val REFRIGERATOR_STOCK_ITEM_TYPE = 1
+        private const val SHOPPING_LIST_STOCK_ITEM_TYPE = 2
     }
 }

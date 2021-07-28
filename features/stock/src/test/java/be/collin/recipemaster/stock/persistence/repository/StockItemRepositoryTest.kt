@@ -4,6 +4,7 @@ import be.collin.recipemaster.stock.Quantity
 import be.collin.recipemaster.stock.StockItem
 import be.collin.recipemaster.stock.StockItems
 import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
+import be.collin.recipemaster.stock.persistence.dao.ShoppingListDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
@@ -36,7 +37,7 @@ internal class StockItemRepositoryTest : StringSpec({
         )
     }
 
-    "should call insert on dao with correct stock item type when an item is added" {
+    "should call insert on dao with correct stock item type when a refrigerator item is added" {
         val refrigeratorDao: RefrigeratorDao = mockk()
         val repository = StockItemRepository(refrigeratorDao)
         val id = "id"
@@ -48,7 +49,19 @@ internal class StockItemRepositoryTest : StringSpec({
         coVerify { refrigeratorDao.addStockItems(StockItemEntity(id, name, quantity.value, 1)) }
     }
 
-    "should call remove on dao with correct stock item type when an item is added" {
+    "should call insert on dao with correct stock item type when a shopping list item is added" {
+        val refrigeratorDao: ShoppingListDao = mockk()
+        val repository = StockItemRepository(refrigeratorDao)
+        val id = "id"
+        val name = "name"
+        val quantity = Quantity(5)
+
+        repository.insertRefrigeratorStockItems(StockItems(mutableListOf(StockItem(id, name, quantity))))
+
+        coVerify { refrigeratorDao.addStockItems(StockItemEntity(id, name, quantity.value, 2)) }
+    }
+
+    "should call remove on dao with correct stock item type when a refrigerator item is added" {
         val refrigeratorDao: RefrigeratorDao = mockk()
         val repository = StockItemRepository(refrigeratorDao)
         val id = "id"
@@ -58,5 +71,17 @@ internal class StockItemRepositoryTest : StringSpec({
         repository.removeRefrigeratorStockItem(StockItem(id, name, quantity))
 
         coVerify { refrigeratorDao.removeStockItem(StockItemEntity(id, name, quantity.value, 1)) }
+    }
+
+    "should call remove on dao with correct stock item type when a shopping list item is added" {
+        val refrigeratorDao: ShoppingListDao = mockk()
+        val repository = StockItemRepository(refrigeratorDao)
+        val id = "id"
+        val name = "name"
+        val quantity = Quantity(5)
+
+        repository.removeRefrigeratorStockItem(StockItem(id, name, quantity))
+
+        coVerify { refrigeratorDao.removeStockItem(StockItemEntity(id, name, quantity.value, 2)) }
     }
 })
