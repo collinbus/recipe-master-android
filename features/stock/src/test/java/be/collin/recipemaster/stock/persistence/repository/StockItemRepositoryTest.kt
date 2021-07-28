@@ -19,7 +19,7 @@ internal class StockItemRepositoryTest : StringSpec({
         val name2 = "name2"
         val quantity2 = 10
         val refrigeratorDao: RefrigeratorDao = mockk {
-            coEvery { getRefrigeratorStockItems() } returns listOf(
+            coEvery { getStockItems() } returns listOf(
                 StockItemEntity(id1, name1, quantity1, stockItemType),
                 StockItemEntity(id2, name2, quantity2, stockItemType),
             )
@@ -45,7 +45,7 @@ internal class StockItemRepositoryTest : StringSpec({
 
         repository.insertRefrigeratorStockItems(StockItems(mutableListOf(StockItem(id, name, quantity))))
 
-        coVerify { refrigeratorDao.addRefrigeratorStockItem(StockItemEntity(id, name, quantity.value, 1)) }
+        coVerify { refrigeratorDao.addStockItems(StockItemEntity(id, name, quantity.value, 1)) }
     }
 
     "should call remove on dao with correct stock item type when an item is added" {

@@ -9,6 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.test.core.app.ApplicationProvider
 import be.collin.recipemaster.stock.persistence.AppDatabase
 import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
+import be.collin.recipemaster.stock.persistence.dao.ShoppingListDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotContain
@@ -16,9 +17,10 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class RefrigeratorDaoTest {
+class ShoppingListDaoTest {
+
     private lateinit var db: AppDatabase
-    private lateinit var dao: RefrigeratorDao
+    private lateinit var dao: ShoppingListDao
 
     @Before
     fun setUp() {
@@ -26,7 +28,7 @@ class RefrigeratorDaoTest {
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .addCallback(MockDatabaseInitializer())
             .build()
-        dao = db.refrigeratorDao()
+        dao = db.shoppingListDao()
     }
 
     private class MockDatabaseInitializer : RoomDatabase.Callback() {
@@ -50,7 +52,7 @@ class RefrigeratorDaoTest {
     fun shouldGetCorrectStockItems() = runBlocking {
         val refrigeratorStockItems = dao.getStockItems()
 
-        refrigeratorStockItems shouldContain StockItemEntity("id1", "name1", 5, 1)
-        refrigeratorStockItems shouldNotContain StockItemEntity("id2", "name2", 10, 1)
+        refrigeratorStockItems shouldNotContain StockItemEntity("id1", "name1", 5, 1)
+        refrigeratorStockItems shouldContain StockItemEntity("id2", "name2", 10, 2)
     }
 }

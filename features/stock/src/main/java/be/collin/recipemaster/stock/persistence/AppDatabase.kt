@@ -5,11 +5,15 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
+import be.collin.recipemaster.stock.persistence.dao.ShoppingListDao
+import be.collin.recipemaster.stock.persistence.dao.StockItemDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 
 @Database(entities = [StockItemEntity::class],version = 1)
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun stockItemDao(): StockItemDao
     abstract fun refrigeratorDao(): RefrigeratorDao
+    abstract fun shoppingListDao(): ShoppingListDao
 
     companion object {
         private var instance: AppDatabase? = null

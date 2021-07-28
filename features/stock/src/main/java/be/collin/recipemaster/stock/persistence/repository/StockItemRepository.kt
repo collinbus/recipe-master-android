@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 class StockItemRepository(private val refrigeratorDao: RefrigeratorDao) {
     suspend fun getRefrigeratorStockItems(): StockItems = StockItems(
         withContext(Dispatchers.IO) {
-            refrigeratorDao.getRefrigeratorStockItems().map {
+            refrigeratorDao.getStockItems().map {
                 StockItem(it.id, it.name, Quantity(it.quantity))
             }.toMutableList()
         }
@@ -30,7 +30,7 @@ class StockItemRepository(private val refrigeratorDao: RefrigeratorDao) {
                     )
                 )
             }
-            refrigeratorDao.addRefrigeratorStockItem(*refrigeratorItems.toTypedArray())
+            refrigeratorDao.addStockItems(*refrigeratorItems.toTypedArray())
         }
     }
 

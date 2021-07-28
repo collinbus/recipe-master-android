@@ -7,18 +7,26 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import be.collin.recipemaster.stock.persistence.AppDatabase
 import be.collin.recipemaster.stock.persistence.dao.RefrigeratorDao
+import be.collin.recipemaster.stock.persistence.dao.StockItemDao
 import be.collin.recipemaster.stock.persistence.entities.StockItemEntity
 import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.collections.shouldNotContain
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import java.io.IOException
 
-class RefrigeratorDaoTest {
+@RunWith(AndroidJUnit4::class)
+class StockItemDaoTest {
+
     private lateinit var db: AppDatabase
-    private lateinit var dao: RefrigeratorDao
+    private lateinit var dao: StockItemDao
 
     @Before
     fun setUp() {
@@ -26,7 +34,7 @@ class RefrigeratorDaoTest {
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
             .addCallback(MockDatabaseInitializer())
             .build()
-        dao = db.refrigeratorDao()
+        dao = db.stockItemDao()
     }
 
     private class MockDatabaseInitializer : RoomDatabase.Callback() {
@@ -51,6 +59,33 @@ class RefrigeratorDaoTest {
         val refrigeratorStockItems = dao.getStockItems()
 
         refrigeratorStockItems shouldContain StockItemEntity("id1", "name1", 5, 1)
-        refrigeratorStockItems shouldNotContain StockItemEntity("id2", "name2", 10, 1)
+        refrigeratorStockItems shouldContain StockItemEntity("id2", "name2", 10, 2)
+    }
+
+    @Test
+    fun shouldUpdateStockItemsCorrectly() = runBlocking {
+        dao.addStockItems(StockItemEntity("id1", "another name", 6, 1))
+
+        val refrigeratorStockItems = dao.getStockItems()
+
+        refrigeratorStockItems shouldContain StockItemEntity("id1", "another name", 6, 1)
+        refrigeratorStockItems.size shouldBe 2
+    }
+
+    @Test
+    fun shouldRemoveItemsCorrectly() = runBlocking {
+        val stockItem = StockItemEntity("id1", "name1", 5, 1)
+
+        dao.removeStockItem(stockItem)
+
+        val refrigeratorStockItems = dao.getStockItems()
+        refrigeratorStockItems.size shouldBe 1
+        refrigeratorStockItems shouldNotContain stockItem
+    }
+
+    @After
+    @Throws(IOException::class)
+    fun tearDown() {
+        db.close()
     }
 }
