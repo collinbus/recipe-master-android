@@ -30,7 +30,7 @@ fun RecipeDetailsScreen(recipe: State<RecipeDetailsUIModel?>) {
             )
             Image(
                 bitmap = BitmapFactory.fromBase64Bytes(it.imageContent).asImageBitmap(),
-                contentDescription = null,
+                contentDescription = "recipe image",
                 modifier = Modifier.padding(16.dp)
             )
             Text(
