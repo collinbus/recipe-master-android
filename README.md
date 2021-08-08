@@ -35,6 +35,7 @@ The stock module is responsible of managing both the refrigerator and the shoppi
   - [Room](https://developer.android.com/jetpack/androidx/releases/room)
   - [MVVM](https://developer.android.com/topic/libraries/architecture/viewmodel)
   - [Navigation Component](https://developer.android.com/guide/navigation)
+  - [Compose](https://developer.android.com/jetpack/compose)
 - [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines)
 - [Kotest](https://kotest.io/)
 - [Kakao](https://github.com/agoda-com/Kakao)
