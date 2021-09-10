@@ -8,6 +8,6 @@ import io.kotest.property.arbitrary.int
 import io.kotest.property.arbitrary.next
 import io.kotest.property.arbitrary.string
 
-val recipeArb = arbitrary {
+fun Arb.Companion.recipe(): Arb<Recipe> = arbitrary {
     Recipe(Arb.string().next(it), Arb.int().next(it), Base64Image(Arb.string().next(it)))
 }

@@ -3,19 +3,20 @@ package be.collin.recipemaster.recipes.overview
 import androidx.lifecycle.Observer
 import arrow.core.left
 import arrow.core.right
-import be.collin.recipemaster.recipeArb
+import be.collin.recipemaster.recipe
 import be.collin.recipemaster.recipes.RecipeRepository
 import be.collin.recipemaster.recipes.overview.RecipeOverviewViewModel.UIState.*
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.property.Arb
 import io.kotest.property.arbitrary.next
 import io.mockk.*
 
 internal class RecipeOverviewViewModelImplTest : BehaviorSpec({
 
     given("a RecipeOverviewViewModel") {
-        val firstRecipe = recipeArb.next()
-        val secondRecipe = recipeArb.next()
-        val thirdRecipe = recipeArb.next()
+        val firstRecipe = Arb.recipe().next()
+        val secondRecipe = Arb.recipe().next()
+        val thirdRecipe = Arb.recipe().next()
         val recipeRepositoryMock: RecipeRepository = mockk {
             coEvery { getRecipes() } returns listOf(firstRecipe,secondRecipe,thirdRecipe).right()
         }
