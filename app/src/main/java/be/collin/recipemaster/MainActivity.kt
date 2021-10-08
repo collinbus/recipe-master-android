@@ -1,6 +1,7 @@
 package be.collin.recipemaster
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,9 +30,24 @@ class MainActivity : AppCompatActivity() {
                 R.id.recipeOverviewFragment -> showBottomNavBar()
                 R.id.fragment_refrigerator -> showBottomNavBar()
                 R.id.fragment_shopping_list -> showBottomNavBar()
-                else -> hideBottomBar()
+                else -> {
+                    hideBottomBar()
+                    enableBackButton()
+                }
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun enableBackButton() {
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun showBottomNavBar() {
